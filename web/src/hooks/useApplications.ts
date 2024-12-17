@@ -45,4 +45,44 @@ export const useApplication = (id: string) => {
     },
     enabled: !!id
   });
+};
+
+// Create application mutation
+export const useCreateApplication = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (newApplication: Partial<Application>) => 
+      axios.post(`${API_URL}/applications`, newApplication),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['applications'] });
+    }
+  });
+};
+
+// Update application mutation
+export const useUpdateApplication = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, ...data }: Partial<Application> & { id: string }) => 
+      axios.put(`${API_URL}/applications/${id}`, data),
+    onSuccess: (_: unknown, variables: { id: string }) => {
+      queryClient.invalidateQueries({ queryKey: ['application', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['applications'] });
+    }
+  });
+};
+
+// Delete application mutation
+export const useDeleteApplication = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => 
+      axios.delete(`${API_URL}/applications/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['applications'] });
+    }
+  });
 }; 

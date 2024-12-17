@@ -12,10 +12,11 @@ export interface Candidate {
   id: string;
   name: string;
   email: string;
-  phone: string;
-  skills: string[];
-  experience: number;
-  status: 'ACTIVE' | 'INACTIVE';
+  phone?: string;
+  resume?: string;
+  skills?: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CandidateQueryParams {
@@ -45,5 +46,45 @@ export const useCandidate = (id: string) => {
       return data as Candidate;
     },
     enabled: !!id
+  });
+};
+
+// Create candidate mutation
+export const useCreateCandidate = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (newCandidate: Partial<Candidate>) => 
+      axios.post(`${API_URL}/candidates`, newCandidate),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['candidates'] });
+    }
+  });
+};
+
+// Update candidate mutation
+export const useUpdateCandidate = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, ...data }: Partial<Candidate> & { id: string }) => 
+      axios.put(`${API_URL}/candidates/${id}`, data),
+    onSuccess: (_: unknown, variables: { id: string }) => {
+      queryClient.invalidateQueries({ queryKey: ['candidate', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['candidates'] });
+    }
+  });
+};
+
+// Delete candidate mutation
+export const useDeleteCandidate = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => 
+      axios.delete(`${API_URL}/candidates/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['candidates'] });
+    }
   });
 }; 

@@ -12,10 +12,12 @@ export interface Job {
   id: string;
   title: string;
   description: string;
-  requirements: string[];
+  company: string;
   location: string;
-  salary: number;
-  status: 'OPEN' | 'CLOSED';
+  salary?: string;
+  requirements?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface JobQueryParams {
@@ -45,5 +47,45 @@ export const useJob = (id: string) => {
       return data as Job;
     },
     enabled: !!id
+  });
+};
+
+// Create job mutation
+export const useCreateJob = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (newJob: Partial<Job>) => 
+      axios.post(`${API_URL}/jobs`, newJob),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+    }
+  });
+};
+
+// Update job mutation
+export const useUpdateJob = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, ...data }: Partial<Job> & { id: string }) => 
+      axios.put(`${API_URL}/jobs/${id}`, data),
+    onSuccess: (_: unknown, variables: { id: string }) => {
+      queryClient.invalidateQueries({ queryKey: ['job', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+    }
+  });
+};
+
+// Delete job mutation
+export const useDeleteJob = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => 
+      axios.delete(`${API_URL}/jobs/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['jobs'] });
+    }
   });
 }; 

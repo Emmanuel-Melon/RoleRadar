@@ -104,7 +104,7 @@ export default function JobsPage() {
         <div>
             <h1 className="text-2xl font-bold mb-4">Jobs</h1>
             <div className="grid gap-4">
-                <JobsList error={error} isLoading={isLoading} jobs={jobs} />
+                <JobsList error={error} isLoading={isLoading} jobs={jobs || null} />
             </div>
         </div>
     );
