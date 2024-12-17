@@ -2,6 +2,7 @@
 import { useJobs } from '@/hooks/useJobs';
 import { AlertCircle, FolderOpen } from "lucide-react";
 import { Button } from '@/components/ui/button';
+import { LoadingState } from '@/components/ui/skeletons';
 
 interface EmptyStateProps {
     title: string;
@@ -73,7 +74,7 @@ interface JobsListProps {
 
 function JobsList({ jobs, isLoading, error }: JobsListProps) {
     if (error) return <ErrorState title='Error Loading Jobs' description='There was an error loading the jobs list.' />
-    if (isLoading) return <p>Loading</p>
+    if (isLoading) return <LoadingState type="job" />
     if (!jobs || jobs.length === 0) return <EmptyState title='No Jobs Found' description='There are no jobs posted yet.' />
 
     return (

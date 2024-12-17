@@ -4,6 +4,7 @@ import { useApplications } from '@/hooks/useApplications';
 import { AlertCircle, FolderOpen } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { EmptyState, ErrorState } from '@/components/ui/states';
+import { LoadingState } from '@/components/ui/skeletons';
 
 interface Application {
     id: string;
@@ -21,7 +22,7 @@ interface ApplicationsListProps {
 
 function ApplicationsList({ applications, isLoading, error }: ApplicationsListProps) {
     if (error) return <ErrorState title='Error Loading Applications' description='There was an error loading the applications list.' />
-    if (isLoading) return <p>Loading</p>
+    if (isLoading) return <LoadingState type="application" />
     if (!applications || applications.length === 0) return <EmptyState title='No Applications Found' description='There are no applications submitted yet.' />
 
     return (

@@ -4,6 +4,7 @@ import { useCandidates } from '@/hooks/useCandidates';
 import { AlertCircle, FolderOpen } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { EmptyState, ErrorState } from '@/components/ui/states';
+import { LoadingState } from '@/components/ui/skeletons';
 
 interface Candidate {
     id: string;
@@ -21,7 +22,7 @@ interface CandidatesListProps {
 
 function CandidatesList({ candidates, isLoading, error }: CandidatesListProps) {
     if (error) return <ErrorState title='Error Loading Candidates' description='There was an error loading the candidates list.' />
-    if (isLoading) return <p>Loading</p>
+    if (isLoading) return <LoadingState type="candidate" />
     if (!candidates || candidates.length === 0) return <EmptyState title='No Candidates Found' description='There are no candidates registered yet.' />
 
     return (
