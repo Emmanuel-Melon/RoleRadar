@@ -1,60 +1,113 @@
-'use client';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-import { useApplications } from '@/hooks/useApplications';
-import { AlertCircle, FolderOpen } from "lucide-react";
-import { Button } from '@/components/ui/button';
-import { EmptyState, ErrorState } from '@/components/ui/states';
-import { LoadingState } from '@/components/ui/skeletons';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+
+const mockApplications = [
+    {
+        id: "1",
+        jobTitle: "Senior Frontend Developer",
+        company: "TechCorp Inc.",
+        location: "San Francisco, CA",
+        appliedDate: new Date("2024-12-15"),
+        status: "PENDING" as const
+    },
+    {
+        id: "2",
+        jobTitle: "Full Stack Engineer",
+        company: "InnovateTech",
+        location: "New York, NY",
+        appliedDate: new Date("2024-12-10"),
+        status: "ACCEPTED" as const
+    },
+    {
+        id: "3",
+        jobTitle: "Software Engineer",
+        company: "StartupCo",
+        location: "Remote",
+        appliedDate: new Date("2024-12-05"),
+        status: "REJECTED" as const
+    }
+]
+
 
 interface Application {
-    id: string;
-    jobId: string;
-    candidateId: string;
-    status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
-    appliedAt: string;
+    id: string
+    jobTitle: string
+    company: string
+    location: string
+    appliedDate: Date
+    status: "PENDING" | "ACCEPTED" | "REJECTED"
 }
 
-interface ApplicationsListProps {
-    applications: Application[] | null;
-    isLoading: boolean;
-    error: Error | null;
+interface ApplicationsTableProps {
+    applications: Application[]
 }
 
-function ApplicationsList({ applications, isLoading, error }: ApplicationsListProps) {
-    if (error) return <ErrorState title='Error Loading Applications' description='There was an error loading the applications list.' />
-    if (isLoading) return <LoadingState type="application" />
-    if (!applications || applications.length === 0) return <EmptyState title='No Applications Found' description='There are no applications submitted yet.' />
+export function ApplicationsTable({ applications }: ApplicationsTableProps) {
+    const getStatusColor = (status: Application["status"]) => {
+        switch (status) {
+            case "ACCEPTED":
+                return "bg-green-500/10 text-green-500"
+            case "REJECTED":
+                return "bg-red-500/10 text-red-500"
+            default:
+                return "bg-yellow-500/10 text-yellow-500"
+        }
+    }
 
     return (
-        <div>
-            {applications.map((application) => (
-                <div key={application.id} className="p-4 border rounded-lg shadow-sm">
-                    <h2 className="text-xl font-semibold">Application #{application.id}</h2>
-                    <div className="mt-2 flex items-center gap-4">
-                        <span className="text-sm text-gray-500">Applied: {new Date(application.appliedAt).toLocaleDateString()}</span>
-                        <span className={`text-sm ${
-                            application.status === 'ACCEPTED' ? 'text-green-500' : 
-                            application.status === 'REJECTED' ? 'text-red-500' : 
-                            'text-yellow-500'
-                        }`}>
-                            {application.status}
-                        </span>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+        <Table>
+            <TableHeader>
+                <TableRow>
+                    <TableHead>Job Title</TableHead>
+                    <TableHead>Company</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Applied Date</TableHead>
+                    <TableHead>Status</TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                {applications.map((application) => (
+                    <TableRow key={application.id}>
+                        <TableCell className="font-medium">{application.jobTitle}</TableCell>
+                        <TableCell>{application.company}</TableCell>
+                        <TableCell>{application.location}</TableCell>
+                        <TableCell>{application.appliedDate.toLocaleDateString()}</TableCell>
+                        <TableCell>
+                            <Badge className={getStatusColor(application.status)} variant="secondary">
+                                {application.status.toLowerCase()}
+                            </Badge>
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </TableBody>
+        </Table>
+    )
 }
+
+
+
 
 export default function ApplicationsPage() {
-    const { data: applications, isLoading, error } = useApplications();
-
     return (
-        <div>
-            <h1 className="text-2xl font-bold mb-4">Applications</h1>
-            <div className="grid gap-4">
-                <ApplicationsList error={error} isLoading={isLoading} applications={applications} />
-            </div>
+        <div className="container py-10 max-w-5xl">
+            <Card>
+                <CardHeader>
+                    <CardTitle>My Applications</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <ApplicationsTable applications={mockApplications} />
+                </CardContent>
+            </Card>
         </div>
-    );
-} 
+    )
+}
+

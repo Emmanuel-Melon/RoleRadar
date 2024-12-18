@@ -143,7 +143,6 @@ export default function NewJobPage() {
                                         required
                                     />
                                 </div>
-
                                 <div className="flex justify-end pt-4">
                                     <Button type="submit" disabled={isSubmitting}>
                                         {isSubmitting && (

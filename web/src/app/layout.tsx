@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "@/components/Navbar";
+import { Navbar } from "@/components/Navbar";
 import { Providers } from './providers';
 import "./globals.css";
 import { headers } from "next/headers";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, RefreshCcw } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,10 +22,10 @@ export const metadata: Metadata = {
   description: "Job Board Application",
 };
 
-function isAuthRoute(pathname: string) {
-  return pathname.startsWith('/login') || 
-         pathname.startsWith('/register') || 
-         pathname.startsWith('/forgot-password');
+function checkAuthRoutes(pathname: string) {
+  return pathname.startsWith('/login') ||
+    pathname.startsWith('/register') ||
+    pathname.startsWith('/forgot-password');
 }
 
 export default async function RootLayout({
@@ -33,15 +35,31 @@ export default async function RootLayout({
 }>) {
   const headersList = headers();
   const pathname = headersList.get("x-pathname") || "/";
-  const isAuth = isAuthRoute(pathname);
+  const isAuthRoute = checkAuthRoutes(pathname);
 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
           <div className="flex min-h-screen flex-col">
-            {!isAuth && <Navbar />}
-            <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {!isAuthRoute && <Navbar />}
+            <main className="w-1/2 mx-auto">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-transparent">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center text-gray-600 hover:text-gray-900"
+                >
+                  <ArrowLeft /> Back
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="flex items-center text-gray-600 hover:text-gray-900"
+                >
+                  Refresh <RefreshCcw />
+                </Button>
+              </div>
               {children}
             </main>
           </div>
