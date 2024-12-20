@@ -1,11 +1,72 @@
-
-import { Card, CardContent } from "@/components/ui/card"
+"use client";
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Pencil, Share2 } from 'lucide-react'
+import { Skeleton } from "@/components/ui/skeleton";
+import { Pencil, Share2, Plus } from 'lucide-react'
+import { useUsers, useUserEducation, useUserExperiences, useUserProjects, useUser } from "@/hooks/use-users"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 import { Calendar } from 'lucide-react'
+
+const ExperienceSkeletonCard = () => {
+    return (
+        <div className="flex gap-4 p-6 rounded-lg border bg-card">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="flex-1 space-y-4">
+                <div className="flex items-start justify-between">
+                    <div className="space-y-2">
+                        <Skeleton className="h-6 w-48" />
+                        <Skeleton className="h-4 w-32" />
+                    </div>
+                    <Skeleton className="h-6 w-20" />
+                </div>
+                <Skeleton className="h-4 w-full" />
+                <div className="flex flex-wrap gap-2">
+                    {[1,2,3].map((i) => (
+                        <Skeleton key={i} className="h-6 w-20 rounded-full" />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const EducationSkeletonCard = () => {
+    return (
+        <div className="flex gap-4 p-6 rounded-lg border bg-card">
+            <Skeleton className="h-12 w-12 rounded-full" />
+            <div className="flex-1 space-y-4">
+                <div className="flex items-start justify-between">
+                    <div className="space-y-2">
+                        <Skeleton className="h-6 w-48" />
+                        <Skeleton className="h-4 w-32" />
+                    </div>
+                    <Skeleton className="h-6 w-20" />
+                </div>
+                <Skeleton className="h-4 w-full" />
+            </div>
+        </div>
+    );
+};
+
+const ProjectSkeletonCard = () => {
+    return (
+        <div className="p-6 rounded-lg border bg-card space-y-4">
+            <div className="space-y-2">
+                <Skeleton className="h-6 w-48" />
+                <Skeleton className="h-4 w-full" />
+            </div>
+            <div className="flex flex-wrap gap-2">
+                {[1,2,3].map((i) => (
+                    <Skeleton key={i} className="h-6 w-20 rounded-full" />
+                ))}
+            </div>
+            <Skeleton className="h-9 w-28" />
+        </div>
+    );
+};
 
 interface ExperienceItemProps {
     title: string
@@ -18,6 +79,23 @@ interface ExperienceItemProps {
     technologies?: string[]
 }
 
+interface EducationItemProps {
+    school: string
+    degree: string
+    field: string
+    startDate: Date
+    endDate?: Date
+    current?: boolean
+    description?: string
+}
+
+interface ProjectItemProps {
+    title: string
+    description?: string
+    technologies?: string[]
+    url?: string
+}
+
 function ExperienceItem({
     title,
     company,
@@ -28,19 +106,6 @@ function ExperienceItem({
     description,
     technologies
 }: ExperienceItemProps) {
-    const formatDate = (date: Date) => {
-        return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
-    }
-
-    const getDuration = (start: Date, end?: Date) => {
-        const months = (end ? end.getTime() : new Date().getTime()) - start.getTime()
-        const years = Math.floor(months / (1000 * 60 * 60 * 24 * 365))
-        const remainingMonths = Math.floor(months / (1000 * 60 * 60 * 24 * 30)) % 12
-
-        if (years === 0) return `${remainingMonths} month${remainingMonths !== 1 ? 's' : ''}`
-        return `${years} year${years !== 1 ? 's' : ''} ${remainingMonths} month${remainingMonths !== 1 ? 's' : ''}`
-    }
-
     return (
         <div className="flex gap-4 p-6 rounded-lg border bg-card">
             <Avatar className="h-12 w-12">
@@ -56,19 +121,22 @@ function ExperienceItem({
                         <h3 className="font-semibold text-xl">{title}</h3>
                         <p className="text-muted-foreground">{company}</p>
                     </div>
-                    {current && (
-                        <Badge variant="secondary">Current</Badge>
-                    )}
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
-                    <span>
-                        {formatDate(startDate)} - {endDate ? formatDate(endDate) : 'Present'}
-                    </span>
-                    <span className="text-muted-foreground/60">
-                        ({getDuration(startDate, endDate)})
-                    </span>
+                    <div className="flex gap-2">
+                        {current && (
+                            <Badge variant="secondary">Current</Badge>
+                        )}
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" size="sm">
+                                    <Pencil className="h-4 w-4 mr-2" />
+                                    Edit
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <p>Hello world</p>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
                 </div>
 
                 {description && (
@@ -89,56 +157,187 @@ function ExperienceItem({
     )
 }
 
+function EducationItem({
+    school,
+    degree,
+    field,
+    startDate,
+    endDate,
+    current,
+    description
+}: EducationItemProps) {
+    return (
+        <div className="flex gap-4 p-6 rounded-lg border bg-card">
+            <Avatar className="h-12 w-12">
+                <AvatarFallback>{school[0]}</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 space-y-2">
+                <div className="flex items-start justify-between">
+                    <div>
+                        <h3 className="font-semibold text-xl">{degree} in {field}</h3>
+                        <p className="text-muted-foreground">{school}</p>
+                    </div>
+                    <div className="flex gap-2">
+                        {current && (
+                            <Badge variant="secondary">Current</Badge>
+                        )}
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="ghost" size="sm">
+                                    <Pencil className="h-4 w-4 mr-2" />
+                                    Edit
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <p>Hello world</p>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+                </div>
 
+                {description && (
+                    <p className="text-muted-foreground">{description}</p>
+                )}
+            </div>
+        </div>
+    )
+}
+
+function ProjectItem({
+    title,
+    description,
+    technologies,
+    url
+}: ProjectItemProps) {
+    return (
+        <div className="p-6 rounded-lg border bg-card space-y-4">
+            <div className="flex justify-between">
+                <div>
+                    <h3 className="font-semibold text-xl">{title}</h3>
+                    {description && (
+                        <p className="text-muted-foreground mt-2">{description}</p>
+                    )}
+                </div>
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="ghost" size="sm">
+                            <Pencil className="h-4 w-4 mr-2" />
+                            Edit
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                        <p>Hello world</p>
+                    </DialogContent>
+                </Dialog>
+            </div>
+
+            {technologies && technologies.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                    {technologies.map((tech) => (
+                        <Badge key={tech} variant="outline" className="rounded-full">
+                            {tech}
+                        </Badge>
+                    ))}
+                </div>
+            )}
+
+            {url && (
+                <Button variant="outline" size="sm" asChild>
+                    <a href={url} target="_blank" rel="noopener noreferrer">View Project</a>
+                </Button>
+            )}
+        </div>
+    )
+}
+
+const UserExperiences = ({ experiences, isLoading, error }: { experiences: any[], isLoading: boolean, error: any }) => {
+    if(isLoading) return (
+        <div className="space-y-4">
+            {[1,2,3].map((i) => (
+                <ExperienceSkeletonCard key={i} />
+            ))}
+        </div>
+    )
+    if(error) return <p>Failed to load</p>
+    return (
+        <div className="space-y-4">
+            {experiences.map((exp, index) => (
+                <ExperienceItem
+                    key={index}
+                    title={exp.title}
+                    company={exp.company}
+                    startDate={exp.startDate}
+                    endDate={exp.endDate}
+                    current={exp.current}
+                    description={exp.description}
+                    technologies={exp.technologies}
+                />
+            ))}
+        </div>
+    )
+}
+
+const UserEducation = ({ education, isLoading, error }: { education: any[], isLoading: boolean, error: any }) => {
+    if(isLoading) return (
+        <div className="space-y-4">
+            {[1,2].map((i) => (
+                <EducationSkeletonCard key={i} />
+            ))}
+        </div>
+    )
+    if(error) return <p>Failed to load</p>
+    return (
+        <div className="space-y-4">
+            {education.map((edu, index) => (
+                <EducationItem
+                    key={index}
+                    school={edu.school}
+                    degree={edu.degree}
+                    field={edu.field}
+                    startDate={edu.startDate}
+                    endDate={edu.endDate}
+                    current={edu.current}
+                    description={edu.description}
+                />
+            ))}
+        </div>
+    )
+}
+
+const UserProjects = ({ projects, isLoading, error }: { projects: any[], isLoading: boolean, error: any }) => {
+    if(isLoading) return (
+        <div className="space-y-4">
+            {[1,2,3].map((i) => (
+                <ProjectSkeletonCard key={i} />
+            ))}
+        </div>
+    )
+    if(error) return <p>Failed to load</p>
+    return (
+        <div className="space-y-4">
+            {projects.map((project, index) => (
+                <ProjectItem
+                    key={index}
+                    title={project.title}
+                    description={project.description}
+                    technologies={project.technologies}
+                    url={project.url}
+                />
+            ))}
+        </div>
+    )
+}
 
 const mockProfile = {
     name: "Emmanuel Gatwech",
     username: "emmanuelgatwech",
     location: "Rwanda",
     bio: "I am a software developer with over four years of experience and a passion for building innovative solutions that address real-world problems, having worked on various projects in various sectors.",
-    skills: [
-      "TypeScript",
-      "Next.js",
-      "Node.js",
-      "PostgreSQL",
-      "GraphQL",
-      "Redis",
-      "Docker",
-      "Technical Writing",
-      "Rust"
-    ],
-    jobCategories: [
-      "Full Stack Engineer",
-      "Frontend Developer",
-      "Backend Developer"
-    ],
     salary: {
       min: 60000,
       max: 80000,
       currency: "USD"
-    },
-    experience: [
-      {
-        title: "FullStack Engineer",
-        company: "Pack",
-        startDate: new Date("2024-05"),
-        current: true,
-      },
-      {
-        title: "Engineering Lead",
-        company: "Sahil",
-        startDate: new Date("2023-11"),
-        current: true,
-      },
-      {
-        title: "Software Engineer",
-        company: "GitStart",
-        startDate: new Date("2021-05"),
-        endDate: new Date("2022-09"),
-        description: "Worked with remote distributed teams around the world, offering pull requests as a service on large scale client applications.",
-        technologies: ["Next.js", "GraphQL", "PostgreSQL", "Docker", "React", "Apollo", "Relay", "MongoDB"]
-      }
-    ]
+    }
   }
 
 
@@ -147,7 +346,6 @@ interface ProfileHeaderProps {
     username: string
     location: string
     bio: string
-
 }
 
 function ProfileHeader({ name, username, location, bio }: ProfileHeaderProps) {
@@ -209,85 +407,131 @@ function SkillsSection({ skills }: SkillsSectionProps) {
     )
 }
 
-export default function ProfilePage() {
+const UserProfile = ({ isLoading, error, user, profile }) => {
+    console.log("profile", profile);
+    if(isLoading) return <p>Loading</p>
+    if(error) return <p>error</p>
     return (
-        <div className="container py-10 space-y-8">
-            <Card>
-                <CardContent className="p-6 space-y-8">
-                    <ProfileHeader
-                        name={mockProfile.name}
-                        username={mockProfile.username}
-                        location={mockProfile.location}
-                        bio={mockProfile.bio}
+        <div>
+        <div className="p-4 space-y-8">
+            <ProfileHeader
+                name={profile?.name}
+                username={user.username}
+                location={user.location}
+                bio={user.bio}
+            />
 
-                    />
-
-                    <div className="space-y-6">
-                        <SkillsSection
-                            skills={mockProfile.skills}
-
-                        />
-
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold">Job Categories</h2>
-                                <Button variant="ghost" size="sm">
-                                    Edit
-                                </Button>
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                                {mockProfile.jobCategories.map((category) => (
-                                    <Badge key={category} variant="secondary">
-                                        {category}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <h2 className="text-xl font-semibold">Salary Expectations</h2>
-                                <Button variant="ghost" size="sm">
-                                    Edit
-                                </Button>
-                            </div>
-                            <div className="text-muted-foreground">
-                                {mockProfile.salary.min.toLocaleString()} - {mockProfile.salary.max.toLocaleString()} {mockProfile.salary.currency} / year
-                            </div>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-            <div>
+            <div className="space-y-6">
+                <SkillsSection
+                    skills={profile?.candidateProfile.skills}
+                />
                 <div className="space-y-4">
-                    <div className="flex items-center justify-between mb-6">
-                        <div>
-                            <h2 className="text-2xl font-semibold">Experience</h2>
-                            <p className="text-muted-foreground">Work history, roles, and key accomplishments</p>
-                        </div>
-                        <Button variant="outline">
-                            <Pencil className="h-4 w-4 mr-2" />
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-semibold">Job Categories</h2>
+                        <Button variant="ghost" size="sm">
                             Edit
                         </Button>
                     </div>
-
-                    <div className="space-y-4">
-                        {mockProfile.experience.map((exp, index) => (
-                            <ExperienceItem
-                                key={index}
-                                title={exp.title}
-                                company={exp.company}
-                                startDate={exp.startDate}
-                                endDate={exp.endDate}
-                                current={exp.current}
-                                description={exp.description}
-                                technologies={exp.technologies}
-                            />
+                    <div className="flex flex-wrap gap-2">
+                        {profile?.candidateProfile.interests.map((category) => (
+                            <Badge key={category} variant="secondary">
+                                {category}
+                            </Badge>
                         ))}
+                    </div>
+                </div>
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-semibold">Salary Expectations</h2>
+                        <Button variant="ghost" size="sm">
+                            Edit
+                        </Button>
+                    </div>
+                    <div className="text-muted-foreground">
+                        {user.salary.min.toLocaleString()} - {user.salary.max.toLocaleString()} {user.salary.currency} / year
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    )
+}
+
+export default function ProfilePage() {
+    const { data: experience, isLoading: expLoading, error: expError } = useUserExperiences("clh1n2f3g0000qw9k3x5j6t8m");
+    const { data: education, isLoading: eduLoading, error: eduError } = useUserEducation("clh1n2f3g0000qw9k3x5j6t8m");
+    const { data: projects, isLoading: projLoading, error: projError } = useUserProjects("clh1n2f3g0000qw9k3x5j6t8m");
+    const { data: user, isLoading: userLoading, error: userError } = useUser("clh1n2f3g0000qw9k3x5j6t8m");
+
+    return (
+        <div className="container p-4 space-y-8">
+            <UserProfile user={mockProfile} isLoading={userLoading} error={userError} profile={user} />
+            <div>
+                <div className="space-y-8">
+                    <div>
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 className="text-2xl font-semibold">Experience</h2>
+                                <p className="text-muted-foreground">Work history, roles, and key accomplishments</p>
+                            </div>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline">
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <p>Hello world</p>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                        <UserExperiences experiences={experience} isLoading={expLoading} error={expError} />
+                    </div>
+
+                    <div>
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 className="text-2xl font-semibold">Education</h2>
+                                <p className="text-muted-foreground">Academic background and qualifications</p>
+                            </div>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline">
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <p>Hello world</p>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                        <UserEducation education={education} isLoading={eduLoading} error={eduError} />
+                    </div>
+
+                    <div>
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 className="text-2xl font-semibold">Projects</h2>
+                                <p className="text-muted-foreground">Personal and professional projects</p>
+                            </div>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button variant="outline">
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Add
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent>
+                                    <p>Hello world</p>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                        <UserProjects projects={projects} isLoading={projLoading} error={projError} />
                     </div>
                 </div>
             </div>
         </div>
     )
 }
-

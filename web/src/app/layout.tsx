@@ -35,7 +35,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = headers();
+  const headersList = await headers();
   const pathname = headersList.get("x-pathname") || "/";
   const isAuthRoute = checkAuthRoutes(pathname);
 
@@ -45,7 +45,6 @@ export default async function RootLayout({
         <SidebarProvider>
           <AppSidebar />
           <Providers>
-    
               <main className="grow">
               <Navbar />
               <div className="flex items-center justify-between rounded-lg bg-transparent">
@@ -64,7 +63,7 @@ export default async function RootLayout({
                   Refresh <RefreshCcw />
                 </Button>
               </div>
-                <div className="p-8">
+                <div>
                 {children}
                 </div>
               </main>

@@ -119,27 +119,6 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-8">
-            {NavLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "px-3 py-2 rounded-md flex items-center gap-2 transition-colors",
-                    isActive 
-                      ? "text-primary bg-primary/10" 
-                      : "text-muted-foreground hover:text-foreground"
-                  )}
-                >
-                  <link.icon className={cn(
-                    "w-4 h-4",
-                    isActive && "text-primary"
-                  )} />
-                  <span>{link.label}</span>
-                </Link>
-              );
-            })}
 
             <div>
               <DropdownMenu>

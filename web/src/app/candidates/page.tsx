@@ -43,15 +43,15 @@ interface CandidateCardProps {
 export function CandidateCard({ candidate, onReject, onApprove }: CandidateCardProps) {
   return (
     <Card className="w-full">
-      <CardContent className="p-6">
+      <CardContent className="p-4">
         <div className="flex items-start gap-6">
-          <Avatar className="h-12 w-12 shrink-0">
+          {/* <Avatar className="h-12 w-12 shrink-0">
             {candidate.avatar ? (
               <AvatarImage src={candidate.avatar} alt={candidate.name} />
             ) : (
               <AvatarFallback className="bg-primary/10">{candidate.name[0]}</AvatarFallback>
             )}
-          </Avatar>
+          </Avatar> */}
 
           <div className="flex-1 space-y-4">
             <div className="flex items-start justify-between gap-4">
@@ -131,7 +131,7 @@ interface CandidateSearchHeaderProps {
 
 export function CandidateSearchHeader({ onSearch }: CandidateSearchHeaderProps) {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-8 space-y-6">
+    <div className="w-full max-w-7xl mx-auto px-4 py-8 space-y-4">
       <div className="space-y-2">
         <h1 className="text-4xl font-bold">Candidate matches</h1>
         <p className="text-xl text-muted-foreground">
@@ -215,106 +215,45 @@ export function CandidateSearchHeader({ onSearch }: CandidateSearchHeaderProps) 
   )
 }
 
-
-
 interface Candidate {
-    id: string;
-    name: string;
-    email: string;
-    skills: string[];
-    experience: number;
+  id: string;
+  name: string;
+  email: string;
+  skills: string[];
+  experience: number;
 }
 
 interface CandidatesListProps {
-    candidates: Candidate[] | null;
-    isLoading: boolean;
-    error: Error | null;
+  candidates: Candidate[] | null;
+  isLoading: boolean;
+  error: Error | null;
 }
 
 function CandidatesList({ candidates, isLoading, error }: CandidatesListProps) {
-    if (error) return <ErrorState title='Error Loading Candidates' description='There was an error loading the candidates list.' />
-    if (isLoading) return <LoadingState type="candidate" />
-    if (!candidates || candidates.length === 0) return <EmptyState title='No Candidates Found' description='There are no candidates registered yet.' />
+  if (error) return <ErrorState title='Error Loading Candidates' description='There was an error loading the candidates list.' />
+  if (isLoading) return <LoadingState type="candidate" />
+  if (!candidates || candidates.length === 0) return <EmptyState title='No Candidates Found' description='There are no candidates registered yet.' />
 
-    return (
-        <div>
-            {candidates.map((candidate) => (
-                <div key={candidate.id} className="p-4 border rounded-lg shadow-sm">
-                    <h2 className="text-xl font-semibold">{candidate.name}</h2>
-                    <p className="text-gray-600 mt-2">{candidate.email}</p>
-                    <div className="mt-2">
-                        <div className="flex flex-wrap gap-2">
-                            {candidate.skills.map((skill, index) => (
-                                <span key={index} className="px-2 py-1 bg-gray-100 rounded-full text-sm">
-                                    {skill}
-                                </span>
-                            ))}
-                        </div>
-                        <p className="text-sm text-gray-500 mt-2">
-                            {candidate.experience} years of experience
-                        </p>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+  return (
+    <div className='container p-4 space-y-4'>
+      {candidates.map((candidate) => (
+        <CandidateCard
+          key={candidate.id}
+          candidate={candidate}
+          onReject={() => console.log('Rejected:', candidate.id)}
+          onApprove={() => console.log('Approved:', candidate.id)}
+        />
+      ))}
+    </div>
+  );
 }
 
-const mockCandidates = [
-    {
-      id: '1',
-      name: 'Sarah Chen',
-      title: 'Senior Frontend Developer',
-      location: 'San Francisco, CA',
-      experience: 6,
-      education: 'BS Computer Science, Stanford University',
-      skills: ['React', 'TypeScript', 'Node.js', 'GraphQL', 'AWS'],
-      bio: 'Passionate frontend developer with expertise in building scalable web applications. Strong focus on user experience and performance optimization.',
-      matchScore: 95,
-    },
-    {
-      id: '2',
-      name: 'Michael Park',
-      title: 'Full Stack Engineer',
-      location: 'New York, NY',
-      experience: 4,
-      education: 'MS Computer Engineering, MIT',
-      skills: ['Python', 'Django', 'React', 'PostgreSQL', 'Docker'],
-      bio: 'Full stack developer with a strong background in building scalable backend systems and intuitive frontend interfaces.',
-      matchScore: 88,
-    },
-    {
-      id: '3',
-      name: 'Emma Wilson',
-      title: 'DevOps Engineer',
-      location: 'London, UK',
-      experience: 5,
-      education: 'BSc Computer Science, Imperial College London',
-      skills: ['Kubernetes', 'AWS', 'Terraform', 'CI/CD', 'Docker'],
-      bio: 'DevOps engineer specializing in cloud infrastructure and automation. Experience with large-scale deployment and monitoring.',
-      matchScore: 92,
-    }
-  ]
-  
-
 export default function CandidatesPage() {
-    const { data: candidates, isLoading, error } = useCandidates();
-
-    return (
-        <div>
+  const { data: candidates, isLoading, error } = useCandidates();
+  return (
+    <div>
       <CandidateSearchHeader onSearch={(filters) => console.log('Search:', filters)} />
-      <div className="container">
-        <div className="space-y-4">
-          {mockCandidates.map((candidate) => (
-            <CandidateCard 
-              key={candidate.id}
-              candidate={candidate}
-              onReject={() => console.log('Rejected:', candidate.id)}
-              onApprove={() => console.log('Approved:', candidate.id)}
-            />
-          ))}
-        </div>
-      </div>
-        </div>
-    );
+      <CandidatesList isLoading={isLoading} error={error} candidates={candidates} />
+    </div>
+  );
 } 

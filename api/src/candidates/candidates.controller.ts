@@ -13,6 +13,8 @@ export class CandidateController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
+    const found = await this.candidateService.findOne(id);
+    console.log("found", found);
     return this.candidateService.findOne(id);
   }
 
