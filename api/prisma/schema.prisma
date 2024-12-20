@@ -1,4 +1,3 @@
-// Prisma schema for RoleRadar app
 generator client {
   provider = "prisma-client-js"
 }
@@ -21,6 +20,8 @@ model User {
   Experience       Experience[]
   Education        Education[]
   Project          Project[]
+  sentMessages     Message[]         @relation("SentMessages")
+  receivedMessages Message[]         @relation("ReceivedMessages")
 }
 
 enum Role {
@@ -31,7 +32,7 @@ enum Role {
 model CandidateProfile {
   id           String        @id @default(cuid())
   userId       String        @unique
-  user         User          @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   skills       String[]
   interests    String[]
   applications Application[]
@@ -42,8 +43,9 @@ model CandidateProfile {
 model RecruiterProfile {
   id        String    @id @default(cuid())
   userId    String    @unique
-  user      User?      @relation(fields: [userId], references: [id])
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
   company   String?
+  logo      String?
   jobPosts  JobPost[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -53,24 +55,57 @@ model JobPost {
   id           String           @id @default(cuid())
   title        String
   description  String
+  requirements String[]
   skills       String[]
+  salary       Salary?
   location     String
+  type         JobType          @default(FULL_TIME)
   recruiterId  String
-  recruiter    RecruiterProfile @relation(fields: [recruiterId], references: [id])
+  recruiter    RecruiterProfile @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
   applications Application[]
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERNSHIP
+}
+
+model Salary {
+  id        String  @id @default(cuid())
+  min       Int
+  max       Int
+  currency  String  @default("USD")
+  jobPost   JobPost @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  jobPostId String  @unique
 }
 
 model Application {
   id          String            @id @default(cuid())
   candidateId String
   jobPostId   String
-  candidate   CandidateProfile  @relation(fields: [candidateId], references: [id])
-  jobPost     JobPost           @relation(fields: [jobPostId], references: [id])
+  candidate   CandidateProfile  @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  jobPost     JobPost           @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
   status      ApplicationStatus @default(PENDING)
+  messages    Message[]
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
+}
+
+model Message {
+  id            String      @id @default(cuid())
+  content       String
+  senderId      String
+  receiverId    String
+  sender        User        @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver      User        @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  applicationId String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 enum ApplicationStatus {
@@ -82,7 +117,7 @@ enum ApplicationStatus {
 model Experience {
   id           String    @id @default(cuid())
   userId       String
-  user         User      @relation(fields: [userId], references: [id])
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   title        String
   company      String
   companyLogo  String?
@@ -98,7 +133,7 @@ model Experience {
 model Education {
   id          String    @id @default(cuid())
   userId      String
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   school      String
   degree      String
   field       String
@@ -113,7 +148,7 @@ model Education {
 model Project {
   id           String    @id @default(cuid())
   userId       String
-  user         User      @relation(fields: [userId], references: [id])
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   title        String
   description  String
   url          String?

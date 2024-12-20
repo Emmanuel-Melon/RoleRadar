@@ -131,7 +131,7 @@ interface CandidateSearchHeaderProps {
 
 export function CandidateSearchHeader({ onSearch }: CandidateSearchHeaderProps) {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-8 space-y-4">
+    <div className="w-full p-4 space-y-4">
       <div className="space-y-2">
         <h1 className="text-4xl font-bold">Candidate matches</h1>
         <p className="text-xl text-muted-foreground">
@@ -231,7 +231,7 @@ interface CandidatesListProps {
 
 function CandidatesList({ candidates, isLoading, error }: CandidatesListProps) {
   if (error) return <ErrorState title='Error Loading Candidates' description='There was an error loading the candidates list.' />
-  if (isLoading) return <LoadingState type="candidate" />
+  if (isLoading) return <div className='container p-4 space-y-4'><LoadingState type="candidate" /></div>
   if (!candidates || candidates.length === 0) return <EmptyState title='No Candidates Found' description='There are no candidates registered yet.' />
 
   return (

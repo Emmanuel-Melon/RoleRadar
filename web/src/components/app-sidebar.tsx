@@ -8,6 +8,7 @@ import {
     Menu,
     X,
     ArrowLeft,
+    BarChart
 } from "lucide-react"
 
 import {
@@ -43,9 +44,14 @@ const items = [
         title: "Candidates",
         icon: User2,
       },
+      {
+        url: "/analytics",
+        title: "Analytics",
+        icon: BarChart,
+      },
     {
         title: "Settings",
-        url: "#",
+        url: "/settings",
         icon: Settings,
     },
 ]
