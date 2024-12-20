@@ -27,7 +27,9 @@ export class ApplicationService {
 
   async create(data: Prisma.ApplicationCreateInput) {
     return this.prisma.application.create({
-      data,
+      data: {
+        ...data,
+      },
       include: {
         jobPost: true,
         candidate: true,

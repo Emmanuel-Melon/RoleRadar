@@ -94,11 +94,11 @@ export function Navbar() {
   return (
     <nav
       className={cn(
-        "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        " flex h-16 items-center justify-end border-b bg-background/10 px-4 shadow-sm w-full",
         isScrolled && "shadow-sm"
       )}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           {/* Mobile Layout */}
           <div className="flex items-center md:hidden">
@@ -115,18 +115,6 @@ export function Navbar() {
                 </Link>
               </Button>
             ) : null}
-          </div>
-
-          {/* Logo - centered on mobile */}
-          <div className={cn(
-            "flex-1 flex justify-center md:justify-start md:flex-initial",
-            shouldShowBackButton() ? "ml-[-40px]" : "" // Offset to maintain center alignment when back button is present
-          )}>
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="hidden md:inline text-xl font-bold">
-                RoleRadar
-              </span>
-            </Link>
           </div>
 
           {/* Desktop Navigation */}

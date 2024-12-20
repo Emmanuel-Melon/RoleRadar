@@ -12,6 +12,16 @@ export class UsersController {
     return this.usersService.create(data);
   }
 
+  @Post('/recruiter')
+  async createRecruiter(@Body() data: Prisma.RecruiterProfileCreateInput) {
+    return this.usersService.createRecruiter(data);
+  }
+
+  @Post('/candidate')
+  async createCandidate(@Body() data: Prisma.CandidateProfileCreateInput) {
+    return this.usersService.createCandidate(data);
+  }
+
   @Get()
   findAll(): Promise<User[]> {
     return Promise.resolve(this.usersService.findAll());

@@ -14,6 +14,14 @@ export class UsersService {
     return this.prisma.user.create({ data });
   }
 
+  async createRecruiter(data: Prisma.RecruiterProfileCreateInput) {
+    return this.prisma.recruiterProfile.create({ data});
+  }
+
+  async createCandidate(data: Prisma.CandidateProfileCreateInput) {
+    return this.prisma.candidateProfile.create({ data});
+  }
+
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({ where: { email } });
   }

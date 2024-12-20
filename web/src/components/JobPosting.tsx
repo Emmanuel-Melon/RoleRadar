@@ -3,8 +3,9 @@
 import { useState } from 'react'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Building2, MapPin, DollarSign, X, Check, Share2, ArrowLeft } from 'lucide-react'
+import { useCreateApplication } from '@/hooks/useApplications'
 
 interface JobCardProps {
   job: {
@@ -25,33 +26,51 @@ interface JobCardProps {
 
 // preferred image: https://img.freepik.com/premium-vector/office-desk-vector-illustration_135595-61415.jpg
 
-export function JobCard({ job, onSkip, onApply, onPrevious, currentIndex, totalJobs }: JobCardProps) {
+export function JobCard({ job, onSkip, onApply, onPrevious }: JobCardProps) {
+  const applicationData = {
+    "candidateId": "clh1n2f3g0005qw9k3x5j6t8z",
+    "status": "PENDING",
+  }
+
+  const createApplication = useCreateApplication();
+
+  console.log("job", job);
   const [isAnimating, setIsAnimating] = useState(false)
   const [direction, setDirection] = useState<'left' | 'right' | null>(null)
 
+  // await createDoctor.mutateAsync(doctorData);
   const handleSkip = () => {
-    setDirection('left')
-    setIsAnimating(true)
-    setTimeout(() => {
-      onSkip?.()
-      setIsAnimating(false)
-      setDirection(null)
-    }, 300)
+    try {
+      setDirection('left')
+      setIsAnimating(true)
+      setTimeout(() => {
+        onSkip?.()
+        setIsAnimating(false)
+        setDirection(null)
+      }, 300)
+    } catch (error) {
+
+    }
   }
 
-  const handleApply = () => {
-    setDirection('right')
-    setIsAnimating(true)
-    setTimeout(() => {
-      onApply?.()
+  const handleApply = async () => {
+    try {
+      setDirection('right')
+      setIsAnimating(true)
+      await createApplication.mutateAsync({
+        ...applicationData,
+        jobPostId: job.id,
+      });
       setIsAnimating(false)
       setDirection(null)
-    }, 300)
+    } catch (error) {
+
+    }
   }
 
   return (
     <Card 
-      className={`w-full max-w-md mx-auto transform transition-all duration-300 ${
+      className={`w-full max-w-md mx-auto transform transition-all duration-300${
         isAnimating
           ? direction === 'left'
             ? '-translate-x-full rotate-[-20deg] opacity-0'
@@ -59,16 +78,13 @@ export function JobCard({ job, onSkip, onApply, onPrevious, currentIndex, totalJ
           : ''
       }`}
     >
-      <CardHeader className="relative h-48">
-        <img src="https://images.template.net/111920/free-boho-office-background-am3uc.jpg" alt="Job Posting Background" />
-      </CardHeader>
-      <CardContent className="p-6">
+      <CardContent className="p-4">
         <div className="space-y-4">
           <div>
-            <h2 className="text-2xl font-bold">{job.title}</h2>
+            <h2 className="text-2xl font-bold">{job?.title}</h2>
             <div className="flex items-center gap-2 text-muted-foreground mt-1">
               <Building2 className="w-4 h-4" />
-              <span>{job.company}</span>
+              <span>{job.title}</span>
             </div>
           </div>
 

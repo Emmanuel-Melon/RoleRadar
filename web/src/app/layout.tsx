@@ -6,6 +6,8 @@ import "./globals.css";
 import { headers } from "next/headers";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, RefreshCcw } from "lucide-react";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,11 +42,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
-          <div className="flex min-h-screen flex-col">
-            {!isAuthRoute && <Navbar />}
-            <main className="w-1/2 mx-auto">
-              <div className="flex items-center justify-between p-2 rounded-lg bg-transparent">
+        <SidebarProvider>
+          <AppSidebar />
+          <Providers>
+    
+              <main className="grow">
+              <Navbar />
+              <div className="flex items-center justify-between rounded-lg bg-transparent">
                 <Button
                   variant="ghost"
                   size="sm"
@@ -60,10 +64,13 @@ export default async function RootLayout({
                   Refresh <RefreshCcw />
                 </Button>
               </div>
-              {children}
-            </main>
-          </div>
-        </Providers>
+                <div className="p-8">
+                {children}
+                </div>
+              </main>
+
+          </Providers>
+        </SidebarProvider>
       </body>
     </html>
   );
