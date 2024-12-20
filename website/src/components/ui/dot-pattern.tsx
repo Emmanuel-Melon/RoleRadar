@@ -3,15 +3,15 @@ import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 interface DotPatternProps {
-  width?: any;
-  height?: any;
-  x?: any;
-  y?: any;
-  cx?: any;
-  cy?: any;
-  cr?: any;
+  width?: number | string | undefined;
+  height?: number | string | undefined;
+  x?: number | string | undefined;
+  y?: number | string | undefined;
+  cx?: number | string | undefined;
+  cy?: number | string | undefined;
+  cr?: number | string | undefined;
   className?: string;
-  [key: string]: any;
+  [key: string]: number | string | undefined;
 }
 export function DotPattern({
   width = 16,
