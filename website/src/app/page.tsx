@@ -84,10 +84,10 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <Button variant="ghost" asChild>
-              <Link href="/login">Log in</Link>
+              <Link href="https://role-radar-web.vercel.app/login">Log in</Link>
             </Button>
             <Button asChild>
-              <Link href="/signup">Sign up</Link>
+              <Link href="https://role-radar-web.vercel.app/signup">Sign up</Link>
             </Button>
           </div>
         </div>

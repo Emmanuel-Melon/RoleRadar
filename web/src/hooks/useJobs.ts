@@ -4,6 +4,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import axios from 'axios';
+import { toast } from "@/hooks/use-toast";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
@@ -34,7 +35,15 @@ export const useJobs = (params: JobQueryParams = {}) => {
     queryFn: async () => {
       const { data } = await axios.get(`${API_URL}/jobs`, { params });
       return data as Job[];
-    }
+    },
+    // onError: (error) => {
+    //   console.error('Failed to fetch jobs:', error);
+    //   toast({
+    //     title: "Error",
+    //     description: "Failed to fetch jobs. Please try again later.",
+    //     variant: "destructive",
+    //   });
+    // }
   });
 };
 

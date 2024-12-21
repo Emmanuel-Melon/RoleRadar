@@ -10,54 +10,173 @@ datasource db {
 model User {
   id               String            @id @default(cuid())
   email            String            @unique
-  password         String?
+  password         String
   name             String
-  role             Role?
-  createdAt        DateTime?         @default(now())
-  updatedAt        DateTime?         @updatedAt
+  role             Role
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
   candidateProfile CandidateProfile?
-  recruiterProfile RecruiterProfile?
-  Experience       Experience[]
   Education        Education[]
+  Experience       Experience[]
+  receivedMessages Message[]         @relation("ReceivedMessages")
+  sentMessages     Message[]         @relation("SentMessages")
   Project          Project[]
-  sentMessages     Message[]        @relation("SentMessages")
-  receivedMessages Message[]        @relation("ReceivedMessages")
+  recruiterProfile RecruiterProfile?
   settings         UserSettings?
 }
 
 model UserSettings {
   id                      String                   @id @default(cuid())
   userId                  String                   @unique
-  user                    User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
   profileVisibility       ProfileVisibility        @default(PUBLIC)
   showSalaryExpectations  Boolean                  @default(false)
   anonymousApplications   Boolean                  @default(false)
-  notificationPreferences NotificationPreferences?
-  jobPreferences          JobPreferences?
   createdAt               DateTime                 @default(now())
   updatedAt               DateTime                 @updatedAt
+  jobPreferences          JobPreferences?
+  notificationPreferences NotificationPreferences?
+  user                    User                     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model NotificationPreferences {
   id                 String       @id @default(cuid())
   userSettingsId     String       @unique
-  userSettings       UserSettings @relation(fields: [userSettingsId], references: [id], onDelete: Cascade)
   newJobMatches      Boolean      @default(true)
   applicationUpdates Boolean      @default(true)
   messages           Boolean      @default(true)
   emailNotifications Boolean      @default(false)
+  userSettings       UserSettings @relation(fields: [userSettingsId], references: [id], onDelete: Cascade)
 }
 
 model JobPreferences {
   id                 String             @id @default(cuid())
   userSettingsId     String             @unique
-  userSettings       UserSettings       @relation(fields: [userSettingsId], references: [id], onDelete: Cascade)
   jobType            JobType
   experienceLevel    ExperienceLevel
   skills             String[]
   minSalary          Int?
   maxSalary          Int?
   locationPreference LocationPreference
+  userSettings       UserSettings       @relation(fields: [userSettingsId], references: [id], onDelete: Cascade)
+}
+
+model CandidateProfile {
+  id           String        @id @default(cuid())
+  userId       String        @unique
+  skills       String[]
+  interests    String[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  applications Application[]
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model RecruiterProfile {
+  id        String    @id @default(cuid())
+  userId    String    @unique
+  company   String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  logo      String?
+  jobPosts  JobPost[]
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model JobPost {
+  id           String           @id @default(cuid())
+  title        String
+  description  String
+  skills       String[]
+  location     String
+  recruiterId  String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  requirements String[]
+  type         JobType          @default(FULL_TIME)
+  applications Application[]
+  recruiter    RecruiterProfile @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  salary       Salary?
+}
+
+model Salary {
+  id        String  @id @default(cuid())
+  min       Int
+  max       Int
+  currency  String  @default("USD")
+  jobPostId String  @unique
+  jobPost   JobPost @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+}
+
+model Application {
+  id          String            @id @default(cuid())
+  candidateId String
+  jobPostId   String
+  status      ApplicationStatus @default(PENDING)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  candidate   CandidateProfile  @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  jobPost     JobPost           @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
+  messages    Message[]
+}
+
+model Message {
+  id            String      @id @default(cuid())
+  content       String
+  senderId      String
+  receiverId    String
+  applicationId String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  receiver      User        @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+  sender        User        @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+}
+
+model Experience {
+  id           String    @id @default(cuid())
+  userId       String
+  title        String
+  company      String
+  companyLogo  String?
+  startDate    DateTime
+  endDate      DateTime?
+  current      Boolean   @default(false)
+  description  String?
+  technologies String[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Education {
+  id          String    @id @default(cuid())
+  userId      String
+  school      String
+  degree      String
+  field       String
+  startDate   DateTime
+  endDate     DateTime?
+  current     Boolean   @default(false)
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id           String    @id @default(cuid())
+  userId       String
+  title        String
+  description  String
+  url          String?
+  image        String?
+  technologies String[]
+  startDate    DateTime
+  endDate      DateTime?
+  current      Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum ProfileVisibility {
@@ -92,127 +211,8 @@ enum Role {
   RECRUITER
 }
 
-model CandidateProfile {
-  id           String        @id @default(cuid())
-  userId       String        @unique
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  skills       String[]
-  interests    String[]
-  applications Application[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-}
-
-model RecruiterProfile {
-  id        String    @id @default(cuid())
-  userId    String    @unique
-  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  company   String?
-  logo      String?
-  jobPosts  JobPost[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-}
-
-model JobPost {
-  id           String           @id @default(cuid())
-  title        String
-  description  String
-  requirements String[]
-  skills       String[]
-  salary       Salary?
-  location     String
-  type         JobType          @default(FULL_TIME)
-  recruiterId  String
-  recruiter    RecruiterProfile @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
-  applications Application[]
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-}
-
-model Salary {
-  id        String  @id @default(cuid())
-  min       Int
-  max       Int
-  currency  String  @default("USD")
-  jobPost   JobPost @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
-  jobPostId String  @unique
-}
-
-model Application {
-  id          String            @id @default(cuid())
-  candidateId String
-  jobPostId   String
-  candidate   CandidateProfile  @relation(fields: [candidateId], references: [id], onDelete: Cascade)
-  jobPost     JobPost           @relation(fields: [jobPostId], references: [id], onDelete: Cascade)
-  status      ApplicationStatus @default(PENDING)
-  messages    Message[]
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-}
-
-model Message {
-  id            String      @id @default(cuid())
-  content       String
-  senderId      String
-  receiverId    String
-  sender        User        @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
-  receiver      User        @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
-  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
-  applicationId String
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-}
-
 enum ApplicationStatus {
   PENDING
   ACCEPTED
   REJECTED
-}
-
-model Experience {
-  id           String    @id @default(cuid())
-  userId       String
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title        String
-  company      String
-  companyLogo  String?
-  startDate    DateTime
-  endDate      DateTime?
-  current      Boolean   @default(false)
-  description  String?
-  technologies String[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-}
-
-model Education {
-  id          String    @id @default(cuid())
-  userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  school      String
-  degree      String
-  field       String
-  startDate   DateTime
-  endDate     DateTime?
-  current     Boolean   @default(false)
-  description String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-}
-
-model Project {
-  id           String    @id @default(cuid())
-  userId       String
-  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  title        String
-  description  String
-  url          String?
-  image        String?
-  technologies String[]
-  startDate    DateTime
-  endDate      DateTime?
-  current      Boolean   @default(false)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
 }

@@ -29,6 +29,7 @@ export class UsersService {
     });
   }
   async create(data: Prisma.UserCreateInput) {
+    console.log("creating user", data);
     return this.prisma.user.create({ data });
   }
 

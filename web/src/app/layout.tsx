@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Navbar } from "@/components/Navbar";
 import { Providers } from './providers';
 import "./globals.css";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, RefreshCcw } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { ConditionalLayout } from "@/components/conditional-layout"
+import { Toaster } from "@/components/ui/toaster"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,30 +30,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <SidebarProvider>
-          <AppSidebar />
           <Providers>
-              <main className="grow">
-                <Navbar />
-                <div className="flex items-center justify-between rounded-lg bg-transparent">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="flex items-center text-gray-600 hover:text-gray-900"
-                  >
-                    <ArrowLeft /> Back
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="flex items-center text-gray-600 hover:text-gray-900"
-                  >
-                    Refresh <RefreshCcw />
-                  </Button>
-                </div>
-                <div>
-                  {children}
-                </div>
-              </main>
+            <ConditionalLayout>
+              {children}
+              <Toaster />
+            </ConditionalLayout>
           </Providers>
         </SidebarProvider>
       </body>
