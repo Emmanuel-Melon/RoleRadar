@@ -5,11 +5,11 @@ import { Prisma } from '@prisma/client';
 @Injectable()
 export class CandidateService {
   constructor(private prisma: PrismaService) {}
-
   async findAll() {
     return this.prisma.candidateProfile.findMany({
       include: {
         applications: true,
+        user: true
       },
     });
   }
