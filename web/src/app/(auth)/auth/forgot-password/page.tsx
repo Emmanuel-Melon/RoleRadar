@@ -16,7 +16,6 @@ export default function ForgotPasswordPage() {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
   const supabase = createClientComponentClient()
 
   const handleResetPassword = async (e: React.FormEvent) => {
@@ -43,7 +42,7 @@ export default function ForgotPasswordPage() {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Forgot Password</CardTitle>
           <CardDescription>
-            Enter your email address and we'll send you a password reset link
+            Enter your email address and we&apos;ll send you a password reset link
           </CardDescription>
         </CardHeader>
         <CardContent>

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { AlertTriangle, RefreshCcw } from 'lucide-react'
+import { RefreshCcw } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
 export default function ErrorPage({
@@ -23,7 +23,7 @@ export default function ErrorPage({
         <div className="grid lg:grid-cols-[2fr,1fr] gap-12">
           <div className="space-y-6">
             <p className="text-lg text-muted-foreground">
-              Oops! Something went wrong on our end. We're working on fixing it.
+              Oops! Something went wrong on our end. We&apos;re working on fixing it.
             </p>
             
             <p className="text-lg text-muted-foreground">

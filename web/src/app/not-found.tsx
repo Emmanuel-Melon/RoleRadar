@@ -11,11 +11,11 @@ export default function NotFoundPage() {
         <div className="grid lg:grid-cols-[2fr,1fr] gap-12">
           <div className="space-y-6">
             <p className="text-lg text-muted-foreground">
-              Oops! The page you're looking for seems to have wandered off into the digital void.
+              Oops! The page you&apos;re looking for seems to have wandered off into the digital void.
             </p>
             
             <p className="text-lg text-muted-foreground">
-              Don't worry though - you can head back home and explore other interesting sections of the site.
+              Don&apos;t worry though - you can head back home and explore other interesting sections of the site.
             </p>
 
             <Button asChild>

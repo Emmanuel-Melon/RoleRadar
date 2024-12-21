@@ -18,7 +18,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
   const supabase = createClientComponentClient()
   const { signIn } = useAuth();
 
