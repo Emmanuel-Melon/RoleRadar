@@ -31,6 +31,7 @@ import {
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 // Move dummy user and nav links outside component
 const dummyUser = {
@@ -118,9 +119,29 @@ export function Navbar() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
-
-            <div>
+          <div className="hidden md:flex md:items-center md:space-x-4">
+            <nav className="flex items-center space-x-6">
+              {NavLinks.map((link) => {
+                const Icon = link.icon;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "flex items-center space-x-2 text-sm font-medium transition-colors hover:text-foreground/80",
+                      pathname === link.href
+                        ? "text-foreground"
+                        : "text-foreground/60"
+                    )}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{link.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button

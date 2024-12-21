@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RoleRadar Landing Page
 
-## Getting Started
+The public-facing website for RoleRadar - a modern job search platform that reimagines recruitment through an intuitive, dating app-inspired interface.
 
-First, run the development server:
+## Features
 
+- 📱 Fully responsive design
+- 🎨 Modern, clean UI
+- ⚡ Fast page loads
+- 🔍 SEO optimized
+- 📊 Analytics integration
+- 🌐 Cross-browser compatible
+
+## Page Sections
+
+1. **Hero Section**
+   - Value proposition
+   - Call-to-action buttons
+   - Visual elements
+
+2. **Features**
+   - Smart Matching
+   - Instant Connections
+   - Simple Interface
+
+3. **How It Works**
+   - Step-by-step guide
+   - Visual demonstrations
+   - User journey explanation
+
+4. **Footer**
+   - Navigation links
+   - Legal information
+   - Social media links
+
+## Setup
+
+1. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+2. Run development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Development
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Environment Variables
 
-## Learn More
+Create a `.env.local` file:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_GA_ID=your-analytics-id
+```
 
-To learn more about Next.js, take a look at the following resources:
+### Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Development
+npm run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Build
+npm run build
 
-## Deploy on Vercel
+# Production
+npm run start
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Linting
+npm run lint
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Type checking
+npm run type-check
+```
+
+## Deployment
+
+The landing page is deployed on Vercel. It can be found [here](https://role-radar.vercel.app/).
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests
+5. Submit a pull request
+
+## License
+
+© 2024 RoleRadar. All rights reserved.

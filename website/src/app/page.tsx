@@ -5,6 +5,7 @@ import { Search, Users, MessageSquare, Briefcase, ArrowRight, Sparkles, CheckCir
 import { cn } from "@/lib/utils";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { motion } from 'framer-motion'
+import { ThemeToggle } from "@/components/theme-toggle"
 
 const steps = [
   {
@@ -71,6 +72,7 @@ export default function Home() {
             </Link>
           </nav>
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <Button variant="ghost" asChild>
               <Link href="/login">Log in</Link>
             </Button>
@@ -484,4 +486,3 @@ export default function Home() {
     </div>
   )
 }
-

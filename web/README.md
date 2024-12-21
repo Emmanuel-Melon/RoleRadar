@@ -1,4 +1,4 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is the application's frontend (user dashboard). It's built using [Next.js](https://nextjs.org) and uses the [React Query](https://react-query.tanstack.com/) to interact with the backend (Nest.js) API.
 
 ## Getting Started
 
