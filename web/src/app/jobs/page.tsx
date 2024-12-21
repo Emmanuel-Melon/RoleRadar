@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { useJobs } from '@/hooks/useJobs';
 import { AlertCircle, FolderOpen } from "lucide-react";
@@ -57,29 +58,29 @@ function ErrorState({ title, description, action }: ErrorStateProps) {
     );
 }
 
-interface Job {
-    id: string;
-    title: string;
-    description: string;
-    location: string;
-    salary: number;
-    status: 'OPEN' | 'CLOSED';
-}
+// interface Job {
+//     id: string;
+//     title: string;
+//     description: string;
+//     location: string;
+//     salary: number;
+//     status: 'OPEN' | 'CLOSED';
+// }
 
-interface JobsListProps {
-    jobs: Job[] | null;
-    isLoading: boolean;
-    error: Error | null;
-}
+// interface JobsListProps {
+//     jobs: Job[];
+//     isLoading: boolean;
+//     error: Error | null;
+// }
 
-function JobsList({ jobs, isLoading, error }: JobsListProps) {
+function JobsList({ jobs, isLoading, error }: any) {
     if (error) return <ErrorState title='Error Loading Jobs' description='There was an error loading the jobs list.' />
     if (isLoading) return <LoadingState type="job" />
     if (!jobs || jobs.length === 0) return <EmptyState title='No Jobs Found' description='There are no jobs posted yet.' />
 
     return (
         <div>
-            {jobs.map((job) => (
+            {jobs.map((job: any) => (
                 <div key={job.id} className="p-4 border rounded-lg shadow-sm">
                     <h2 className="text-xl font-semibold">{job.title}</h2>
                     <p className="text-gray-600 mt-2">{job.description}</p>
@@ -104,7 +105,7 @@ export default function JobsPage() {
         <div>
             <h1 className="text-2xl font-bold mb-4">Jobs</h1>
             <div className="grid gap-4">
-                <JobsList error={error} isLoading={isLoading} jobs={jobs || null} />
+                <JobsList error={error} isLoading={isLoading} jobs={jobs} />
             </div>
         </div>
     );

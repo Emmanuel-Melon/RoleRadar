@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Building2, MessageSquare, Heart, Clock, MapPin, Calendar, CheckCircle2, XCircle, Clock3, ArrowLeft, Send } from 'lucide-react'
+import { Building2, MessageSquare, Heart, Clock, MapPin, Calendar, CheckCircle2, XCircle, Clock3, Send } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -170,7 +170,7 @@ export default function ApplicationsPage() {
                     onClick={() => setSelectedApplication(app)}
                   >
                     <Avatar>
-                      <AvatarImage src={null} />
+                      <AvatarImage src={""} />
                       <AvatarFallback>{app.company[0]}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -200,7 +200,7 @@ export default function ApplicationsPage() {
                     onClick={() => setSelectedApplication(app)}
                   >
                     <Avatar>
-                      <AvatarImage src={null} />
+                      <AvatarImage src={""} />
                       <AvatarFallback>{app.company[0]}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -236,7 +236,7 @@ export default function ApplicationsPage() {
                     onClick={() => setSelectedApplication(app)}
                   >
                     <Avatar>
-                      <AvatarImage src={null} />
+                      <AvatarImage src={""} />
                       <AvatarFallback>{app.company[0]}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -384,7 +384,7 @@ export default function ApplicationsPage() {
                       )}
                     >
                       <Avatar className="h-8 w-8 mt-0.5">
-                        <AvatarImage src={null} />
+                        <AvatarImage src={""} />
                         <AvatarFallback>
                           {message.isCompany ? selectedApplication.company[0] : "U"}
                         </AvatarFallback>

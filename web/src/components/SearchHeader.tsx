@@ -9,13 +9,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Search, ChevronDown } from 'lucide-react'
+import { Search } from 'lucide-react'
 
-interface SearchHeaderProps {
-  onSearch: (filters: any) => void
-}
 
-export function SearchHeader({ onSearch }: SearchHeaderProps) {
+export function SearchHeader() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-8 space-y-6">
       <div className="space-y-2">

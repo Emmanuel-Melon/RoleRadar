@@ -1,13 +1,9 @@
 import {
-    Calendar, Home, Inbox, Search, Settings, Briefcase,
+    Home,
+    Settings,
+    Briefcase,
     Clipboard,
-    LogOut,
     User2,
-    User,
-    HelpCircle,
-    Menu,
-    X,
-    ArrowLeft,
     BarChart
 } from "lucide-react"
 

@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { JobCard } from "@/components/JobPosting";
 import { useState } from 'react'
 import { SearchHeader } from "@/components/SearchHeader";
 import { useJobs } from "@/hooks/useJobs";
 
-const JobRecommendations = ({ jobs, isLoading, error }) => {
+const JobRecommendations = ({ jobs, isLoading, error }: any) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const handleSkip = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % jobs.length)
@@ -37,13 +38,9 @@ const JobRecommendations = ({ jobs, isLoading, error }) => {
 export default function Home() {
   const { isLoading, error, data: jobs } = useJobs();
 
-  const handleSearch = (query: string) => {
-    console.log(`Searching for: ${query}`)
-  }
-
   return (
     <div className="container space-y-4">
-      <SearchHeader onSearch={handleSearch} />
+      <SearchHeader />
       <JobRecommendations error={error} isLoading={isLoading} jobs={jobs} />
     </div>
   );

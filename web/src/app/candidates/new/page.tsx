@@ -99,7 +99,7 @@ export default function NewCandidatePage() {
                         <CardHeader>
                             <CardTitle>Candidate Details</CardTitle>
                             <CardDescription>
-                                Fill in the candidate's information
+                                Fill in the candidate&apos;s information
                             </CardDescription>
                         </CardHeader>
                         <CardContent>

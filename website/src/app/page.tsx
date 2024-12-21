@@ -1,11 +1,16 @@
 "use client";
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Search, Users, MessageSquare, Briefcase, ArrowRight, Sparkles, CheckCircle, User, Radar, PartyPopper, Handshake } from 'lucide-react'
+import { Users, MessageSquare, Briefcase, ArrowRight, Sparkles, Check, User, Radar, PartyPopper, Handshake, ArrowUp, Github, Feather } from 'lucide-react'
 import { cn } from "@/lib/utils";
 import { DotPattern } from "@/components/ui/dot-pattern";
 import { motion } from 'framer-motion'
 import { ThemeToggle } from "@/components/theme-toggle"
+
+const socialLinks = [
+  { icon: Github, href: "#", label: "GitHub" },
+  { icon: Feather, href: "#", label: "Blog" },
+]
 
 const steps = [
   {
@@ -13,28 +18,28 @@ const steps = [
     title: "Create Your Profile",
     description: "Build your professional profile highlighting your skills, experience, and career preferences. Our AI-powered system uses this information to find your perfect matches.",
     icon: User,
-    color: "bg-blue-50/50"
+    color: "bg-card hover:bg-muted/50"
   },
   {
     number: "02", 
     title: "Discover Opportunities",
     description: "Browse through personalized job recommendations. Swipe right on positions you are interested in, left on those you are not. It's that simple!",
     icon: Radar,
-    color: "bg-rose-50/50"
+    color: "bg-card hover:bg-muted/50"
   },
   {
     number: "03",
     title: "Match and Connect",
     description: "When there's mutual interest between you and an employer, it's a match! Start the conversation directly through our built-in messaging system.",
     icon: Handshake,
-    color: "bg-green-50/50"
+    color: "bg-card hover:bg-muted/50"
   },
   {
     number: "04",
     title: "Land Your Dream Job",
     description: "Track your applications, receive real-time updates, and move forward in your career journey. No more wondering about application status or missed opportunities.",
     icon: PartyPopper,
-    color: "bg-amber-50/50"
+    color: "bg-card hover:bg-muted/50"
   }
 ]
 
@@ -52,7 +57,12 @@ const AnimateOnScroll = ({ children }: { children: React.ReactNode }) => {
 }
 
 export default function Home() {
-
+  const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    })
+}
 
   return (
     <div className="min-h-screen bg-background">
@@ -138,7 +148,7 @@ export default function Home() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <div className="rounded-full w-10 h-10 bg-primary/10 flex items-center justify-center">
-                        <Search className="h-5 w-5 text-primary" />
+                        <Radar className="h-5 w-5 text-primary" />
                       </div>
                       <div>
                         <h3 className="font-semibold">Smart Matching</h3>
@@ -197,9 +207,129 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Two-way Platform Section */}
+      <section className="py-20 bg-muted/40">
+        <div className="container mx-auto px-4">
+          <AnimateOnScroll>
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <h2 className="text-3xl font-bold mb-6">
+                A Two-Way Hiring Platform That
+                <span className="text-primary"> Works for Everyone</span>
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                RoleRadar creates meaningful connections between talented professionals and forward-thinking companies, making the hiring process efficient and enjoyable for both sides.
+              </p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              <div className="bg-background p-8 rounded-2xl shadow-sm">
+                <div className="mb-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <User className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">For Job Seekers</h3>
+                  <p className="text-muted-foreground mb-6">
+                    Take control of your job search with a platform that works as hard as you do.
+                  </p>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-2">
+                  
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+                    <Check className="h-5 w-5 text-primary shrink-0" />
+                    </div>
+                    <span>Get matched with relevant opportunities</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+                    <Check className="h-5 w-5 text-primary shrink-0" />
+                    </div>
+                    <span>Connect directly with hiring managers</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+                    <Check className="h-5 w-5 text-primary shrink-0" />
+                    </div>
+                    <span>Track application status in real-time</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-background p-8 rounded-2xl shadow-sm">
+                <div className="mb-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <Briefcase className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">For Employers</h3>
+                  <p className="text-muted-foreground mb-6">
+                    Find and connect with pre-qualified candidates who match your requirements.
+                  </p>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+                    <Check className="h-5 w-5 text-primary shrink-0" />
+                    </div>
+                    <span>Access a pool of active, qualified candidates</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+                    <Check className="h-5 w-5 text-primary shrink-0" />
+                    </div>
+                    <span>Reduce time-to-hire with AI matching</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+                    <Check className="h-5 w-5 text-primary shrink-0" />
+                    </div>
+                    <span>Streamline your recruitment process</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </AnimateOnScroll>
+        </div>
+      </section>
 
-      {/* Analytics Section */}
-      <section className="py-20">
+
+      {/* How It Works Section - Updated to vertical layout */}
+      <section className="py-20 bg-muted/40">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            How RoleRadar Works
+          </h2>
+          <div className="max-w-3xl mx-auto space-y-8">
+            {steps.map((step) => (
+              <div 
+                key={step.title}
+                className={cn(
+                  "group relative rounded-2xl border transition-all hover:shadow-sm",
+                  step.color
+                )}
+              >
+                <div className="flex items-start gap-8 p-6 sm:p-8">
+                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 shrink-0">
+                    <step.icon className="w-8 h-8 text-primary" />
+                  </div>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="text-sm font-medium text-muted-foreground">
+                        {step.number}
+                      </div>
+                      <h3 className="text-xl font-semibold">{step.title}</h3>
+                      <div className="h-1 w-12 bg-primary/10 group-hover:w-24 group-hover:bg-primary/20 transition-all duration-300" />
+                    </div>
+                    <p className="text-muted-foreground">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+            {/* Analytics Section */}
+            <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <AnimateOnScroll>
@@ -230,7 +360,7 @@ export default function Home() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <div className="rounded-full w-10 h-10 bg-primary/10 flex items-center justify-center">
-                        <CheckCircle className="h-5 w-5 text-primary" />
+                        <Check className="h-5 w-5 text-primary" />
                       </div>
                       <div>
                         <h3 className="font-semibold">Profile Strength Score</h3>
@@ -263,112 +393,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Two-way Platform Section */}
-      <section className="py-20 bg-muted/40">
-        <div className="container mx-auto px-4">
-          <AnimateOnScroll>
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl font-bold mb-6">
-                A Two-Way Hiring Platform That
-                <span className="text-primary"> Works for Everyone</span>
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                RoleRadar creates meaningful connections between talented professionals and forward-thinking companies, making the hiring process efficient and enjoyable for both sides.
-              </p>
-            </div>
-            <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              <div className="bg-background p-8 rounded-2xl shadow-sm">
-                <div className="mb-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <User className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">For Job Seekers</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Take control of your job search with a platform that works as hard as you do.
-                  </p>
-                </div>
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary shrink-0" />
-                    <span>Get matched with relevant opportunities</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary shrink-0" />
-                    <span>Connect directly with hiring managers</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary shrink-0" />
-                    <span>Track application status in real-time</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="bg-background p-8 rounded-2xl shadow-sm">
-                <div className="mb-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Briefcase className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">For Employers</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Find and connect with pre-qualified candidates who match your requirements.
-                  </p>
-                </div>
-                <ul className="space-y-3">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary shrink-0" />
-                    <span>Access a pool of active, qualified candidates</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary shrink-0" />
-                    <span>Reduce time-to-hire with AI matching</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary shrink-0" />
-                    <span>Streamline your recruitment process</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </AnimateOnScroll>
-        </div>
-      </section>
-
-
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <AnimateOnScroll>
-            <h2 className="text-3xl font-bold text-center mb-12">
-              How RoleRadar Works
-            </h2>
-            <div className="max-w-3xl mx-auto space-y-8">
-              {steps.map((step) => (
-                <div 
-                  key={step.title}
-                  className={`group relative rounded-2xl ${step.color} p-6 sm:p-8 transition-all hover:shadow-sm`}
-                >
-                  <div className="flex items-start gap-8">
-                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white shadow-sm shrink-0">
-                      <step.icon className="w-8 h-8 text-primary" />
-                    </div>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <div className="text-sm font-medium text-muted-foreground">
-                          {step.number}
-                        </div>
-                        <h3 className="text-xl font-semibold">{step.title}</h3>
-                        <div className="h-1 w-12 bg-primary/10 group-hover:w-24 group-hover:bg-primary/20 transition-all duration-300" />
-                      </div>
-                      <p className="text-muted-foreground">
-                        {step.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </AnimateOnScroll>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-20 bg-muted/40">
         <div className="container mx-auto px-4 text-center">
@@ -390,98 +414,51 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="font-semibold mb-4">For Job Seekers</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/jobs" className="text-muted-foreground hover:text-foreground">
-                    Browse Jobs
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/profile" className="text-muted-foreground hover:text-foreground">
-                    Create Profile
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/applications" className="text-muted-foreground hover:text-foreground">
-                    Job Applications
-                  </Link>
-                </li>
-              </ul>
+      <footer className="py-8 px-6 md:px-12 lg:px-24 bg-transparent">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="max-w-7xl"
+        >
+          <div className="grid lg:grid-cols-[2fr,1fr] gap-12">
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <h3 className="text-sm mb-2">Eman</h3>
+                <p className="text-lg">
+                  Software engineer passionate about building innovative solutions that make a difference.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-sm mb-2">Social</h3>
+                <div className="flex gap-4">
+                  {socialLinks.map((link) => (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className="transition-colors"
+                      aria-label={link.label}
+                    >
+                      <link.icon className="w-5 h-5" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div>
-              <h3 className="font-semibold mb-4">For Employers</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/post-job" className="text-muted-foreground hover:text-foreground">
-                    Post a Job
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/candidates" className="text-muted-foreground hover:text-foreground">
-                    Browse Candidates
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/pricing" className="text-muted-foreground hover:text-foreground">
-                    Pricing
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4">Company</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/about" className="text-muted-foreground hover:text-foreground">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contact" className="text-muted-foreground hover:text-foreground">
-                    Contact
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/blog" className="text-muted-foreground hover:text-foreground">
-                    Blog
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold mb-4">Legal</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/privacy" className="text-muted-foreground hover:text-foreground">
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms" className="text-muted-foreground hover:text-foreground">
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/cookies" className="text-muted-foreground hover:text-foreground">
-                    Cookie Policy
-                  </Link>
-                </li>
-              </ul>
+            <div className="flex justify-end items-start">
+              <motion.button
+                onClick={scrollToTop}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="p-3 rounded-full transition-colors"
+              >
+                <ArrowUp className="w-5 h-5" />
+              </motion.button>
             </div>
           </div>
-
-          <div className="mt-12 pt-8 border-t text-center text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} RoleRadar. All rights reserved.</p>
-          </div>
-        </div>
+        </motion.div>
       </footer>
     </div>
   )

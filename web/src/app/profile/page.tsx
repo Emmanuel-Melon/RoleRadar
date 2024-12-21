@@ -1,14 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton";
 import { Pencil, Share2, Plus } from 'lucide-react'
-import { useUsers, useUserEducation, useUserExperiences, useUserProjects, useUser } from "@/hooks/use-users"
+import {  useUserEducation, useUserExperiences, useUserProjects, useUser } from "@/hooks/use-users"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-
-import { Calendar } from 'lucide-react'
 
 const ExperienceSkeletonCard = () => {
     return (
@@ -100,8 +98,6 @@ function ExperienceItem({
     title,
     company,
     companyLogo,
-    startDate,
-    endDate,
     current,
     description,
     technologies
@@ -161,8 +157,6 @@ function EducationItem({
     school,
     degree,
     field,
-    startDate,
-    endDate,
     current,
     description
 }: EducationItemProps) {
@@ -250,7 +244,7 @@ function ProjectItem({
     )
 }
 
-const UserExperiences = ({ experiences, isLoading, error }: { experiences: any[], isLoading: boolean, error: any }) => {
+const UserExperiences = ({ experiences, isLoading, error }: any) => {
     if(isLoading) return (
         <div className="space-y-4">
             {[1,2,3].map((i) => (
@@ -261,7 +255,7 @@ const UserExperiences = ({ experiences, isLoading, error }: { experiences: any[]
     if(error) return <p>Failed to load</p>
     return (
         <div className="space-y-4">
-            {experiences.map((exp, index) => (
+            {experiences.map((exp: any, index: number) => (
                 <ExperienceItem
                     key={index}
                     title={exp.title}
@@ -277,7 +271,7 @@ const UserExperiences = ({ experiences, isLoading, error }: { experiences: any[]
     )
 }
 
-const UserEducation = ({ education, isLoading, error }: { education: any[], isLoading: boolean, error: any }) => {
+const UserEducation = ({ education, isLoading, error }: any) => {
     if(isLoading) return (
         <div className="space-y-4">
             {[1,2].map((i) => (
@@ -288,7 +282,7 @@ const UserEducation = ({ education, isLoading, error }: { education: any[], isLo
     if(error) return <p>Failed to load</p>
     return (
         <div className="space-y-4">
-            {education.map((edu, index) => (
+            {education.map((edu: any, index: number) => (
                 <EducationItem
                     key={index}
                     school={edu.school}
@@ -304,7 +298,7 @@ const UserEducation = ({ education, isLoading, error }: { education: any[], isLo
     )
 }
 
-const UserProjects = ({ projects, isLoading, error }: { projects: any[], isLoading: boolean, error: any }) => {
+const UserProjects = ({ projects, isLoading, error }: any) => {
     if(isLoading) return (
         <div className="space-y-4">
             {[1,2,3].map((i) => (
@@ -315,7 +309,7 @@ const UserProjects = ({ projects, isLoading, error }: { projects: any[], isLoadi
     if(error) return <p>Failed to load</p>
     return (
         <div className="space-y-4">
-            {projects.map((project, index) => (
+            {projects.map((project: any, index: number) => (
                 <ProjectItem
                     key={index}
                     title={project.title}
@@ -407,7 +401,7 @@ function SkillsSection({ skills }: SkillsSectionProps) {
     )
 }
 
-const UserProfile = ({ isLoading, error, user, profile }) => {
+const UserProfile = ({ isLoading, error, user, profile }: any) => {
     console.log("profile", profile);
     if(isLoading) return <p>Loading</p>
     if(error) return <p>error</p>
@@ -433,7 +427,7 @@ const UserProfile = ({ isLoading, error, user, profile }) => {
                         </Button>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        {profile?.candidateProfile.interests.map((category) => (
+                        {profile?.candidateProfile.interests.map((category: any) => (
                             <Badge key={category} variant="secondary">
                                 {category}
                             </Badge>
