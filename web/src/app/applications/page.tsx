@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { Building2, MessageSquare, Heart, Clock, MapPin, Calendar, CheckCircle2, XCircle, Clock3, Send } from 'lucide-react'
+import { Building2, MessageSquare, Heart, Clock, MapPin, Calendar, CheckCircle2, XCircle, Clock3, Send, ArrowLeft } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -96,6 +96,7 @@ const mockApplications = [
 export default function ApplicationsPage() {
   const [selectedApplication, setSelectedApplication] = useState<typeof mockApplications[0] | null>(null)
   const [newMessage, setNewMessage] = useState("")
+  const [showMobileDetail, setShowMobileDetail] = useState(false)
   
   const getStatusColor = (status: "PENDING" | "ACCEPTED" | "REJECTED") => {
     switch (status) {
@@ -129,7 +130,10 @@ export default function ApplicationsPage() {
   return (
     <div className="flex h-screen bg-background">
       {/* Left Sidebar */}
-      <div className="w-[400px] border-r">
+      <div className={cn(
+        "md:w-[400px] w-full md:border-r",
+        (selectedApplication && showMobileDetail) ? "hidden md:block" : "block"
+      )}>
         <div className="p-4 border-b">
           <div className="flex items-center gap-2">
             <Avatar className="h-8 w-8">
@@ -167,7 +171,10 @@ export default function ApplicationsPage() {
                       "flex items-center gap-4 p-4 hover:bg-muted/50 cursor-pointer",
                       selectedApplication?.id === app.id && "bg-muted"
                     )}
-                    onClick={() => setSelectedApplication(app)}
+                    onClick={() => {
+                      setSelectedApplication(app)
+                      setShowMobileDetail(true)
+                    }}
                   >
                     <Avatar>
                       <AvatarImage src={""} />
@@ -197,7 +204,10 @@ export default function ApplicationsPage() {
                       "flex items-center gap-4 p-4 hover:bg-muted/50 cursor-pointer",
                       selectedApplication?.id === app.id && "bg-muted"
                     )}
-                    onClick={() => setSelectedApplication(app)}
+                    onClick={() => {
+                      setSelectedApplication(app)
+                      setShowMobileDetail(true)
+                    }}
                   >
                     <Avatar>
                       <AvatarImage src={""} />
@@ -233,7 +243,10 @@ export default function ApplicationsPage() {
                       "flex items-center gap-4 p-4 hover:bg-muted/50 cursor-pointer",
                       selectedApplication?.id === app.id && "bg-muted"
                     )}
-                    onClick={() => setSelectedApplication(app)}
+                    onClick={() => {
+                      setSelectedApplication(app)
+                      setShowMobileDetail(true)
+                    }}
                   >
                     <Avatar>
                       <AvatarImage src={""} />
@@ -259,10 +272,24 @@ export default function ApplicationsPage() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 overflow-auto">
+      <div className={cn(
+        "flex-1 overflow-auto",
+        (selectedApplication && showMobileDetail) ? "block" : "hidden md:block"
+      )}>
         {selectedApplication ? (
           <Tabs defaultValue="details" className="h-full flex flex-col">
             <div className="border-b">
+              <div className="flex items-center p-2 md:hidden">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowMobileDetail(false)}
+                  className="mr-2"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                </Button>
+                <span className="font-semibold">{selectedApplication.company}</span>
+              </div>
               <TabsList className="w-full justify-start rounded-none border-b-0">
                 <TabsTrigger value="details">Details</TabsTrigger>
                 <TabsTrigger value="messages">Messages</TabsTrigger>
@@ -448,4 +475,3 @@ export default function ApplicationsPage() {
     </div>
   )
 }
-

@@ -46,8 +46,8 @@ export default function Home() {
   const { isLoading, error, data: jobs } = useJobs()
 
   return (
-    <div className="flex gap-6 h-[calc(100vh-2rem)]">
-      <div className="w-[400px] min-w-[400px] h-full overflow-y-auto">
+    <div className="flex flex-col md:flex-row gap-6 h-[calc(100vh-2rem)]">
+      <div className="hidden md:block w-[400px] min-w-[400px] h-full overflow-y-auto">
         <SearchHeader />
       </div>
       <div className="flex-1">
@@ -56,4 +56,3 @@ export default function Home() {
     </div>
   )
 }
-
