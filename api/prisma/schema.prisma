@@ -126,8 +126,8 @@ model JobPost {
   salary       Salary?
   location     String
   type         JobType          @default(FULL_TIME)
-  recruiterId  String
-  recruiter    RecruiterProfile @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  recruiterId  String?
+  recruiter    RecruiterProfile? @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
   applications Application[]
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt

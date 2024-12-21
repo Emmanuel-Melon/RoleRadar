@@ -10,11 +10,9 @@ The public-facing landing page introduces visitors to RoleRadar's unique value p
 - Instant Connections: Direct communication channel between candidates and companies
 - Simple Interface: Intuitive swipe-based interaction for job discovery
 
-Key sections include:
-- Hero section with clear value proposition
-- Feature highlights
-- Call-to-action buttons for sign-up
-- Navigation to key pages (About, Contact, Blog)
+![Landing Page](/assets/hero.png)
+
+**Live Demo can be found [here](https://role-radar-web.vercel.app)**
 
 ### 2. Web Application (User Dashboard)
 
@@ -32,6 +30,9 @@ Key sections include:
 - Subscription and pricing management
 - Notification center for candidate interactions
 
+**Live Demo can be found [here](https://role-radar-web.vercel.app/)**
+
+
 ### 3. Backend API (Nest.js)
 The API layer handles all business logic and data management:
 - RESTful endpoints for user management
@@ -40,6 +41,7 @@ The API layer handles all business logic and data management:
 - Job matching algorithm implementation
 - Notification service integration
 - Data validation and sanitization
+
 
 ## Technology Stack
 
