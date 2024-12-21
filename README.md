@@ -16,6 +16,8 @@ The public-facing landing page introduces visitors to RoleRadar's unique value p
 
 ### 2. Web Application (User Dashboard)
 
+![Match Page](/assets/match.png)
+
 #### For Job Seekers
 - Profile creation and management
 - Job browsing interface with swipe functionality
@@ -23,12 +25,16 @@ The public-facing landing page introduces visitors to RoleRadar's unique value p
 - Match management and communications
 - Real-time notifications for matches and messages
 
+![Applications Page](/assets/applications.png)
+
 #### For Employers
 - Job posting interface
 - Candidate browsing system
 - Applicant management dashboard
 - Subscription and pricing management
 - Notification center for candidate interactions
+
+![Jobs Page](/assets/jobs.png)
 
 **Live Demo can be found [here](https://role-radar-web.vercel.app/)**
 

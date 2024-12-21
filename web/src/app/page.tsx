@@ -47,7 +47,7 @@ export default function Home() {
 
   return (
     <div className="flex gap-6 h-[calc(100vh-2rem)]">
-      <div className="w-[400px] min-w-[400px] h-full overflow-y-auto bg-gray-50">
+      <div className="w-[400px] min-w-[400px] h-full overflow-y-auto">
         <SearchHeader />
       </div>
       <div className="flex-1">
