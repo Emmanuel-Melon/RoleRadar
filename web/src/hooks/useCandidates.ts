@@ -4,8 +4,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+import { apiUrl } from '@/app/config';
 
 // Types
 export interface Candidate {
@@ -31,7 +30,7 @@ export const useCandidates = (params: CandidateQueryParams = {}) => {
   return useQuery({
     queryKey: ['candidates', params],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/candidates`, { params });
+      const { data } = await axios.get(`${apiUrl}/candidates`, { params });
       return data as Candidate[];
     }
   });
@@ -42,7 +41,7 @@ export const useCandidate = (id: string) => {
   return useQuery({
     queryKey: ['candidate', id],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/candidates/${id}`);
+      const { data } = await axios.get(`${apiUrl}/candidates/${id}`);
       return data as Candidate;
     },
     enabled: !!id
@@ -55,7 +54,7 @@ export const useCreateCandidate = () => {
 
   return useMutation({
     mutationFn: (newCandidate: Partial<Candidate>) => 
-      axios.post(`${API_URL}/candidates`, newCandidate),
+      axios.post(`${apiUrl}/candidates`, newCandidate),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['candidates'] });
     }
@@ -68,7 +67,7 @@ export const useUpdateCandidate = () => {
 
   return useMutation({
     mutationFn: ({ id, ...data }: Partial<Candidate> & { id: string }) => 
-      axios.put(`${API_URL}/candidates/${id}`, data),
+      axios.put(`${apiUrl}/candidates/${id}`, data),
     onSuccess: (_: unknown, variables: { id: string }) => {
       queryClient.invalidateQueries({ queryKey: ['candidate', variables.id] });
       queryClient.invalidateQueries({ queryKey: ['candidates'] });
@@ -82,7 +81,7 @@ export const useDeleteCandidate = () => {
 
   return useMutation({
     mutationFn: (id: string) => 
-      axios.delete(`${API_URL}/candidates/${id}`),
+      axios.delete(`${apiUrl}/candidates/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['candidates'] });
     }

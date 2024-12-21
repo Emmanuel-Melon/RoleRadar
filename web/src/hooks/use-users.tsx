@@ -4,8 +4,7 @@ import {
     useQueryClient,
   } from '@tanstack/react-query';
   import axios from 'axios';
-  
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+  import { apiUrl } from '@/app/config';
   
   // Types
   export interface User {
@@ -73,7 +72,7 @@ import {
     return useQuery({
       queryKey: ['users', params],
       queryFn: async () => {
-        const { data } = await axios.get(`${API_URL}/users`, { params });
+        const { data } = await axios.get(`${apiUrl}/users`, { params });
         return data as User[];
       }
     });
@@ -83,7 +82,7 @@ import {
     return useQuery({
       queryKey: ['user', id],
       queryFn: async () => {
-        const { data } = await axios.get(`${API_URL}/users/${id}`);
+        const { data } = await axios.get(`${apiUrl}/users/${id}`);
         return data as User;
       },
       enabled: !!id
@@ -95,7 +94,7 @@ import {
   
     return useMutation({
       mutationFn: (newUser: Partial<User>) => 
-        axios.post(`${API_URL}/users`, newUser),
+        axios.post(`${apiUrl}/users`, newUser),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['users'] });
       }
@@ -107,7 +106,7 @@ import {
   
     return useMutation({
       mutationFn: ({ id, ...data }: Partial<User> & { id: string }) => 
-        axios.put(`${API_URL}/users/${id}`, data),
+        axios.put(`${apiUrl}/users/${id}`, data),
       onSuccess: (_: unknown, variables: { id: string }) => {
         queryClient.invalidateQueries({ queryKey: ['user', variables.id] });
         queryClient.invalidateQueries({ queryKey: ['users'] });
@@ -120,7 +119,7 @@ import {
   
     return useMutation({
       mutationFn: (id: string) => 
-        axios.delete(`${API_URL}/users/${id}`),
+        axios.delete(`${apiUrl}/users/${id}`),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['users'] });
       }
@@ -132,7 +131,7 @@ import {
     return useQuery({
       queryKey: ['userProjects', userId, params],
       queryFn: async () => {
-        const { data } = await axios.get(`${API_URL}/users/${userId}/projects`, { params });
+        const { data } = await axios.get(`${apiUrl}/users/${userId}/projects`, { params });
         return data as Project[];
       },
       enabled: !!userId
@@ -143,7 +142,7 @@ import {
     return useQuery({
       queryKey: ['project', id],
       queryFn: async () => {
-        const { data } = await axios.get(`${API_URL}/projects/${id}`);
+        const { data } = await axios.get(`${apiUrl}/projects/${id}`);
         return data as Project;
       },
       enabled: !!id
@@ -155,7 +154,7 @@ import {
   
     return useMutation({
       mutationFn: (newProject: Partial<Project>) => 
-        axios.post(`${API_URL}/users/${userId}/projects`, newProject),
+        axios.post(`${apiUrl}/users/${userId}/projects`, newProject),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['userProjects', userId] });
       }
@@ -167,7 +166,7 @@ import {
   
     return useMutation({
       mutationFn: ({ id, ...data }: Partial<Project> & { id: string }) => 
-        axios.put(`${API_URL}/projects/${id}`, data),
+        axios.put(`${apiUrl}/projects/${id}`, data),
       onSuccess: (_: unknown, variables: { id: string }) => {
         queryClient.invalidateQueries({ queryKey: ['project', variables.id] });
         queryClient.invalidateQueries({ queryKey: ['userProjects'] });
@@ -180,7 +179,7 @@ import {
   
     return useMutation({
       mutationFn: (id: string) => 
-        axios.delete(`${API_URL}/projects/${id}`),
+        axios.delete(`${apiUrl}/projects/${id}`),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['userProjects', userId] });
       }
@@ -192,7 +191,7 @@ import {
     return useQuery({
       queryKey: ['userExperiences', userId, params],
       queryFn: async () => {
-        const { data } = await axios.get(`${API_URL}/users/${userId}/experience`, { params });
+        const { data } = await axios.get(`${apiUrl}/users/${userId}/experience`, { params });
         return data as Experience[];
       },
       enabled: !!userId
@@ -203,7 +202,7 @@ import {
     return useQuery({
       queryKey: ['experience', id],
       queryFn: async () => {
-        const { data } = await axios.get(`${API_URL}/experience/${id}`);
+        const { data } = await axios.get(`${apiUrl}/experience/${id}`);
         return data as Experience;
       },
       enabled: !!id
@@ -215,7 +214,7 @@ import {
   
     return useMutation({
       mutationFn: (newExperience: Partial<Experience>) => 
-        axios.post(`${API_URL}/users/${userId}/experience`, newExperience),
+        axios.post(`${apiUrl}/users/${userId}/experience`, newExperience),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['userExperiences', userId] });
       }
@@ -227,7 +226,7 @@ import {
   
     return useMutation({
       mutationFn: ({ id, ...data }: Partial<Experience> & { id: string }) => 
-        axios.put(`${API_URL}/experiences/${id}`, data),
+        axios.put(`${apiUrl}/experiences/${id}`, data),
       onSuccess: (_: unknown, variables: { id: string }) => {
         queryClient.invalidateQueries({ queryKey: ['experience', variables.id] });
         queryClient.invalidateQueries({ queryKey: ['userExperiences'] });
@@ -240,7 +239,7 @@ import {
   
     return useMutation({
       mutationFn: (id: string) => 
-        axios.delete(`${API_URL}/experiences/${id}`),
+        axios.delete(`${apiUrl}/experiences/${id}`),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['userExperiences', userId] });
       }
@@ -252,7 +251,7 @@ import {
     return useQuery({
       queryKey: ['userEducation', userId, params],
       queryFn: async () => {
-        const { data } = await axios.get(`${API_URL}/users/${userId}/education`, { params });
+        const { data } = await axios.get(`${apiUrl}/users/${userId}/education`, { params });
         return data as Education[];
       },
       enabled: !!userId
@@ -263,7 +262,7 @@ import {
     return useQuery({
       queryKey: ['education', id],
       queryFn: async () => {
-        const { data } = await axios.get(`${API_URL}/education/${id}`);
+        const { data } = await axios.get(`${apiUrl}/education/${id}`);
         return data as Education;
       },
       enabled: !!id
@@ -275,7 +274,7 @@ import {
   
     return useMutation({
       mutationFn: (newEducation: Partial<Education>) => 
-        axios.post(`${API_URL}/users/${userId}/education`, newEducation),
+        axios.post(`${apiUrl}/users/${userId}/education`, newEducation),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['userEducation', userId] });
       }
@@ -287,7 +286,7 @@ import {
   
     return useMutation({
       mutationFn: ({ id, ...data }: Partial<Education> & { id: string }) => 
-        axios.put(`${API_URL}/education/${id}`, data),
+        axios.put(`${apiUrl}/education/${id}`, data),
       onSuccess: (_: unknown, variables: { id: string }) => {
         queryClient.invalidateQueries({ queryKey: ['education', variables.id] });
         queryClient.invalidateQueries({ queryKey: ['userEducation'] });
@@ -300,7 +299,7 @@ import {
   
     return useMutation({
       mutationFn: (id: string) => 
-        axios.delete(`${API_URL}/education/${id}`),
+        axios.delete(`${apiUrl}/education/${id}`),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['userEducation', userId] });
       }

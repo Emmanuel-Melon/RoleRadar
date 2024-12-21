@@ -4,8 +4,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query';
 import axios from 'axios';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+import { apiUrl } from '@/app/config';
 
 // Types
 export interface Application {
@@ -29,7 +28,7 @@ export const useApplications = (params: ApplicationQueryParams = {}) => {
   return useQuery({
     queryKey: ['applications', params],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/applications`, { params });
+      const { data } = await axios.get(`${apiUrl}/applications`, { params });
       return data as Application[];
     }
   });
@@ -40,7 +39,7 @@ export const useApplication = (id: string) => {
   return useQuery({
     queryKey: ['application', id],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/applications/${id}`);
+      const { data } = await axios.get(`${apiUrl}/applications/${id}`);
       return data as Application;
     },
     enabled: !!id
@@ -53,7 +52,7 @@ export const useCreateApplication = () => {
 
   return useMutation({
     mutationFn: (newApplication: Partial<Application>) => 
-      axios.post(`${API_URL}/applications`, newApplication),
+      axios.post(`${apiUrl}/applications`, newApplication),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['applications'] });
     }
@@ -66,7 +65,7 @@ export const useUpdateApplication = () => {
 
   return useMutation({
     mutationFn: ({ id, ...data }: Partial<Application> & { id: string }) => 
-      axios.put(`${API_URL}/applications/${id}`, data),
+      axios.put(`${apiUrl}/applications/${id}`, data),
     onSuccess: (_: unknown, variables: { id: string }) => {
       queryClient.invalidateQueries({ queryKey: ['application', variables.id] });
       queryClient.invalidateQueries({ queryKey: ['applications'] });
@@ -80,7 +79,7 @@ export const useDeleteApplication = () => {
 
   return useMutation({
     mutationFn: (id: string) => 
-      axios.delete(`${API_URL}/applications/${id}`),
+      axios.delete(`${apiUrl}/applications/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['applications'] });
     }

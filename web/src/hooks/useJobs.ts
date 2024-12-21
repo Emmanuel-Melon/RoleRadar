@@ -5,8 +5,7 @@ import {
 } from '@tanstack/react-query';
 import axios from 'axios';
 // import { toast } from "@/hooks/use-toast";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+import { apiUrl } from '@/app/config';
 
 // Types
 export interface Job {
@@ -33,7 +32,7 @@ export const useJobs = (params: JobQueryParams = {}) => {
   return useQuery({
     queryKey: ['jobs', params],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/jobs`, { params });
+      const { data } = await axios.get(`${apiUrl}/jobs`, { params });
       return data as Job[];
     },
     // onError: (error) => {
@@ -52,7 +51,7 @@ export const useJob = (id: string) => {
   return useQuery({
     queryKey: ['job', id],
     queryFn: async () => {
-      const { data } = await axios.get(`${API_URL}/jobs/${id}`);
+      const { data } = await axios.get(`${apiUrl}/jobs/${id}`);
       return data as Job;
     },
     enabled: !!id
@@ -65,7 +64,7 @@ export const useCreateJob = () => {
 
   return useMutation({
     mutationFn: (newJob: Partial<Job>) => 
-      axios.post(`${API_URL}/jobs`, newJob),
+      axios.post(`${apiUrl}/jobs`, newJob),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
     }
@@ -78,7 +77,7 @@ export const useUpdateJob = () => {
 
   return useMutation({
     mutationFn: ({ id, ...data }: Partial<Job> & { id: string }) => 
-      axios.put(`${API_URL}/jobs/${id}`, data),
+      axios.put(`${apiUrl}/jobs/${id}`, data),
     onSuccess: (_: unknown, variables: { id: string }) => {
       queryClient.invalidateQueries({ queryKey: ['job', variables.id] });
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
@@ -92,7 +91,7 @@ export const useDeleteJob = () => {
 
   return useMutation({
     mutationFn: (id: string) => 
-      axios.delete(`${API_URL}/jobs/${id}`),
+      axios.delete(`${apiUrl}/jobs/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
     }
