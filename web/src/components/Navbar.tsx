@@ -32,6 +32,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useAuth } from "@/hooks/use-auth";
 
 // Move dummy user and nav links outside component
 const dummyUser = {
@@ -66,6 +67,7 @@ export function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { signOut } = useAuth();
 
   // Handle scroll effect
   useEffect(() => {
@@ -78,9 +80,9 @@ export function Navbar() {
 
   const handleSignOut = async () => {
     try {
-      // const result = await signOut();
-      //console.log("result", result);
-      router.push("/login");
+      const result = await signOut();
+      console.log("result", result);
+      router.push("/auth/login");
     } catch (error) {
       console.error(error);
     }

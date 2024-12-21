@@ -1,12 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
-import { JobCard } from "@/components/JobPosting";
+"use client"
+
+import { JobCard,Instructions } from "@/components/JobPosting"
+// import { Instructions } from "@/components/Instructions"
 import { useState } from 'react'
-import { SearchHeader } from "@/components/SearchHeader";
-import { useJobs } from "@/hooks/useJobs";
+import { SearchHeader } from "@/components/SearchHeader"
+import { useJobs } from "@/hooks/useJobs"
+import { useAuth } from "@/hooks/use-auth"
 
 const JobRecommendations = ({ jobs, isLoading, error }: any) => {
+  const { user } = useAuth()
   const [currentIndex, setCurrentIndex] = useState(0)
+  
   const handleSkip = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % jobs.length)
   }
@@ -22,26 +26,34 @@ const JobRecommendations = ({ jobs, isLoading, error }: any) => {
 
   if (isLoading) return <p>Loading Jobs</p>
   if (error) return <p>Failed to get jobs</p>
+  
   return (
-    <JobCard
-      job={jobs[currentIndex]}
-      onSkip={handleSkip}
-      onApply={handleApply}
-      onPrevious={handlePrevious}
-      currentIndex={currentIndex}
-      totalJobs={jobs.length}
-    />
+    <div className="flex flex-col items-center justify-center mt-12 gap-12 flex-1">
+      <JobCard
+        job={jobs[currentIndex]}
+        onSkip={handleSkip}
+        onApply={handleApply}
+        onPrevious={handlePrevious}
+        currentIndex={currentIndex}
+        totalJobs={jobs.length}
+      />
+      <Instructions />
+    </div>
   )
-
 }
 
 export default function Home() {
-  const { isLoading, error, data: jobs } = useJobs();
+  const { isLoading, error, data: jobs } = useJobs()
 
   return (
-    <div className="container space-y-4">
-      <SearchHeader />
-      <JobRecommendations error={error} isLoading={isLoading} jobs={jobs} />
+    <div className="flex gap-6 h-[calc(100vh-2rem)]">
+      <div className="w-[400px] min-w-[400px] h-full overflow-y-auto bg-gray-50">
+        <SearchHeader />
+      </div>
+      <div className="flex-1">
+        <JobRecommendations error={error} isLoading={isLoading} jobs={jobs} />
+      </div>
     </div>
-  );
+  )
 }
+

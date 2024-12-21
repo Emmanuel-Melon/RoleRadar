@@ -35,8 +35,6 @@ export function useAuth() {
       email,
       password,
     });
-    console.log("data", data);  
-    console.log("error", error);
     return { data, error }
   }
 

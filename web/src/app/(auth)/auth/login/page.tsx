@@ -20,6 +20,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const supabase = createClientComponentClient()
   const { signIn } = useAuth();
+  const router = useRouter();
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,6 +33,7 @@ export default function LoginPage() {
     )
 
     console.log(result);
+    router.push('/');
 
     // if (error) {
     //   setError(error.message)

@@ -4,19 +4,23 @@ import {
     Briefcase,
     Clipboard,
     User2,
-    BarChart
+    BarChart,
+    ChevronUp
 } from "lucide-react"
 
 import {
     Sidebar,
     SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarMenuBadge
 } from "@/components/ui/sidebar"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
 
 // Menu items.
 const items = [
@@ -67,7 +71,9 @@ export function AppSidebar() {
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </a>
+                                        
                                     </SidebarMenuButton>
+                                    <SidebarMenuBadge>24</SidebarMenuBadge>
                                 </SidebarMenuItem>
                             ))}
                         </SidebarMenu>

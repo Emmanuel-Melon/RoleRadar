@@ -11,19 +11,18 @@ import {
 } from "@/components/ui/select"
 import { Search } from 'lucide-react'
 
-
 export function SearchHeader() {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 py-8 space-y-6">
+    <div className="w-full px-4 py-6 space-y-6">
       <div className="space-y-2">
-        <h1 className="text-4xl font-bold">Your matches</h1>
-        <p className="text-xl text-muted-foreground">
+        <h1 className="text-2xl font-bold">Your matches</h1>
+        <p className="text-sm text-muted-foreground">
           Discover the best remote and work from home jobs at top remote companies that match your profile.
         </p>
       </div>
 
       <div className="rounded-lg bg-card shadow-sm border p-4 space-y-4">
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-4">
           <div className="relative">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
@@ -40,9 +39,9 @@ export function SearchHeader() {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-col gap-3">
           <Select>
-            <SelectTrigger className="w-[200px] bg-background">
+            <SelectTrigger className="w-full bg-background">
               <SelectValue placeholder="Experience level" />
             </SelectTrigger>
             <SelectContent>
@@ -54,7 +53,7 @@ export function SearchHeader() {
           </Select>
 
           <Select>
-            <SelectTrigger className="w-[200px] bg-background">
+            <SelectTrigger className="w-full bg-background">
               <SelectValue placeholder="Salary range" />
             </SelectTrigger>
             <SelectContent>
@@ -66,7 +65,7 @@ export function SearchHeader() {
           </Select>
 
           <Select>
-            <SelectTrigger className="w-[200px] bg-background">
+            <SelectTrigger className="w-full bg-background">
               <SelectValue placeholder="Companies" />
             </SelectTrigger>
             <SelectContent>
@@ -77,7 +76,7 @@ export function SearchHeader() {
           </Select>
 
           <Select>
-            <SelectTrigger className="w-[200px] bg-background">
+            <SelectTrigger className="w-full bg-background">
               <SelectValue placeholder="Job type" />
             </SelectTrigger>
             <SelectContent>
@@ -88,7 +87,7 @@ export function SearchHeader() {
           </Select>
 
           <Select>
-            <SelectTrigger className="w-[200px] bg-background">
+            <SelectTrigger className="w-full bg-background">
               <SelectValue placeholder="Employee benefits" />
             </SelectTrigger>
             <SelectContent>
@@ -100,7 +99,7 @@ export function SearchHeader() {
           </Select>
 
           <Select>
-            <SelectTrigger className="w-[200px] bg-background">
+            <SelectTrigger className="w-full bg-background">
               <SelectValue placeholder="Markets" />
             </SelectTrigger>
             <SelectContent>
@@ -111,12 +110,13 @@ export function SearchHeader() {
             </SelectContent>
           </Select>
 
-          <div className="flex gap-2 ml-auto">
-            <Button variant="ghost">Clear</Button>
+          <div className="flex flex-col gap-2 w-full mt-2">
             <Button>Search</Button>
+            <Button variant="ghost">Clear</Button>
           </div>
         </div>
       </div>
     </div>
   )
 }
+

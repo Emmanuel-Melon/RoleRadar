@@ -20,8 +20,8 @@ model User {
   Experience       Experience[]
   Education        Education[]
   Project          Project[]
-  sentMessages     Message[]        @relation("SentMessages")
-  receivedMessages Message[]        @relation("ReceivedMessages")
+  sentMessages     Message[]         @relation("SentMessages")
+  receivedMessages Message[]         @relation("ReceivedMessages")
   settings         UserSettings?
 }
 
@@ -93,14 +93,15 @@ enum Role {
 }
 
 model CandidateProfile {
-  id           String        @id @default(cuid())
-  userId       String        @unique
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  skills       String[]
-  interests    String[]
-  applications Application[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id              String            @id @default(cuid())
+  userId          String            @unique
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills          String[]
+  interests       String[]
+  applications    Application[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  CompanyInterest CompanyInterest[]
 }
 
 model RecruiterProfile {
@@ -112,6 +113,8 @@ model RecruiterProfile {
   jobPosts  JobPost[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  Company   Company?  @relation(fields: [companyId], references: [id])
+  companyId String?
 }
 
 model JobPost {
@@ -128,6 +131,8 @@ model JobPost {
   applications Application[]
   createdAt    DateTime         @default(now())
   updatedAt    DateTime         @updatedAt
+  Company      Company?         @relation(fields: [companyId], references: [id])
+  companyId    String?
 }
 
 model Salary {
@@ -215,4 +220,38 @@ model Project {
   current      Boolean   @default(false)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+}
+
+model Company {
+  id          String             @id @default(cuid())
+  name        String
+  logo        String?
+  description String?
+  website     String?
+  recruiters  RecruiterProfile[]
+  jobPosts    JobPost[]
+  interests   CompanyInterest[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+model CompanyInterest {
+  id          String           @id @default(cuid())
+  companyId   String
+  candidateId String
+  company     Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  candidate   CandidateProfile @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  status      InterestStatus   @default(INTERESTED)
+  note        String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@unique([companyId, candidateId])
+}
+
+enum InterestStatus {
+  INTERESTED
+  CONTACTED
+  MEETING_SCHEDULED
+  NOT_INTERESTED
 }

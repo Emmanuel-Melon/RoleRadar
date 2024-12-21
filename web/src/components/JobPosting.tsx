@@ -4,7 +4,7 @@
 import { useState } from 'react'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
+import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { Building2, MapPin, DollarSign, X, Check, Share2, ArrowLeft } from 'lucide-react'
 import { useCreateApplication } from '@/hooks/useApplications'
 
@@ -71,15 +71,22 @@ export function JobCard({ job, onSkip, onPrevious }: JobCardProps) {
   }
 
   return (
-    <Card 
-      className={`w-full max-w-md mx-auto transform transition-all duration-300${
-        isAnimating
-          ? direction === 'left'
-            ? '-translate-x-full rotate-[-20deg] opacity-0'
-            : 'translate-x-full rotate-[20deg] opacity-0'
-          : ''
-      }`}
+    <Card
+      className={`w-full max-w-xl shadow-none transform transition-all duration-300 h-[calc(100vh-20rem)]${isAnimating
+        ? direction === 'left'
+          ? '-translate-x-full rotate-[-20deg] opacity-0'
+          : 'translate-x-full rotate-[20deg] opacity-0'
+        : ''
+        }`}
     >
+      <CardHeader className="flex flex-col items-center">
+        <img
+          src="https://img.freepik.com/premium-vector/office-desk-vector-illustration_135595-61415.jpg"
+          alt="company logo"
+
+        />
+
+      </CardHeader>
       <CardContent className="p-4">
         <div className="space-y-4">
           <div>
@@ -150,3 +157,26 @@ export function JobCard({ job, onSkip, onPrevious }: JobCardProps) {
   )
 }
 
+
+export const Instructions = () => {
+  return (
+    <div className="flex items-center gap-8 text-sm text-muted-foreground">
+      <div className="flex items-center gap-2">
+        <X className="h-4 w-4 text-destructive" />
+        <span>Skip</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Check className="h-4 w-4 text-primary" />
+        <span>Apply</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <ArrowLeft className="h-4 w-4" />
+        <span>Previous</span>
+      </div>
+      <div className="flex items-center gap-2">
+        <Share2 className="h-4 w-4" />
+        <span>Share</span>
+      </div>
+    </div>
+  )
+}
