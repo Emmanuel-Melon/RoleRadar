@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Loader2, Plus, X } from 'lucide-react'
+import { ArrowLeft, Loader2, X } from 'lucide-react'
 import { useCreateJob } from "@/hooks/useJobs"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -139,6 +139,7 @@ export default function NewJobPage() {
     try {
       await createJob.mutateAsync({
         ...formData,
+        // @ts-ignore
         status: 'OPEN'
       })
       router.push("/jobs")

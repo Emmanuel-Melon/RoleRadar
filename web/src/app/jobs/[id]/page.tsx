@@ -1,9 +1,6 @@
 "use client"
-
-import { notFound } from "next/navigation"
-import Link from "next/link"
 import { motion } from "framer-motion"
-import { ArrowLeft, Building2, Users, MapPin, DollarSign, Calendar, Briefcase, GraduationCap, Trophy, Heart } from 'lucide-react'
+import { Building2, Users, MapPin, DollarSign, Calendar, Briefcase, GraduationCap, Trophy, Heart } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -58,7 +55,7 @@ export const jobs = [
   
   
 
-export default function JobPage({ params }: { params: { jobId: string } }) {
+export default function JobPage() {
   const job = jobs[0];
 
   return (
@@ -70,7 +67,7 @@ export default function JobPage({ params }: { params: { jobId: string } }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="space-y-8"
+        
         >
           <div className="flex items-start justify-between">
             <div className="space-y-1">

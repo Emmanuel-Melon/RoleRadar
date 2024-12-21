@@ -6,8 +6,8 @@ import { useAuth } from '@/hooks/use-auth';
 import { SplashScreen } from './SplashScreen';
 import { Button } from './ui/button';
 import { ArrowLeft, RefreshCcw } from 'lucide-react';
-import NProgress from "nprogress";  
-import { useEffect } from 'react';
+// import NProgress from "nprogress";  
+// import { useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import "nprogress/nprogress.css";
 
@@ -18,38 +18,12 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const { loading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    NProgress.configure({
-      showSpinner: false,
-      trickleSpeed: 200,
-      minimum: 0.08
-    });
-
-    const handleStart = () => {
-      NProgress.start();
-    };
-
-    const handleStop = () => {
-      NProgress.done();
-    };
-
-    // router.events.on('routeChangeStart', handleStart);
-    // router.events.on('routeChangeComplete', handleStop);
-    // router.events.on('routeChangeError', handleStop);
-
-    // return () => {
-    //   router.events.off('routeChangeStart', handleStart);
-    //   router.events.off('routeChangeComplete', handleStop);
-    //   router.events.off('routeChangeError', handleStop);
-    // };
-  }, [router]);
-
   const handleBack = () => {
     router.back();
   };
 
   const handleRefresh = () => {
-    router.replace(router.asPath);
+    router.refresh();
   };
 
   if (isAuthPage) {

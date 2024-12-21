@@ -5,7 +5,6 @@ import {
     Clipboard,
     User2,
     BarChart,
-    ChevronUp
 } from "lucide-react"
 
 import {
@@ -20,8 +19,6 @@ import {
     SidebarMenuItem,
     SidebarMenuBadge
 } from "@/components/ui/sidebar"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu"
-
 // Menu items.
 const items = [
     {

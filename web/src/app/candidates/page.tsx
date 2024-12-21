@@ -1,29 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-
 import { useCandidates } from '@/hooks/useCandidates';
-import { Button } from '@/components/ui/button';
-import { EmptyState, ErrorState } from '@/components/ui/states';
+import { ErrorState } from '@/components/ui/states';
 import { LoadingState } from '@/components/ui/skeletons';
-import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Search } from 'lucide-react'
 import { CandidateCard } from '@/components/CandidateCard';
 import { CandidateFilters } from '@/components/CandidateFilters';
-
-
-
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card"
-import { MapPin, Briefcase, GraduationCap, X, Check, Share2 } from 'lucide-react'
-
-
 
 // interface CandidateCardProps {
 //   candidate: {
@@ -57,24 +38,24 @@ import { MapPin, Briefcase, GraduationCap, X, Check, Share2 } from 'lucide-react
 //   error: Error | null;
 // }
 
-function CandidatesList({ candidates, isLoading, error }: any) {
-  if (error) return <ErrorState title='Error Loading Candidates' description='There was an error loading the candidates list.' />
-  if (isLoading) return <div className='container p-4 space-y-4'><LoadingState type="candidate" /></div>
-  if (!candidates || candidates.length === 0) return <EmptyState title='No Candidates Found' description='There are no candidates registered yet.' />
+// function CandidatesList({ candidates, isLoading, error }: any) {
+//   if (error) return <ErrorState title='Error Loading Candidates' description='There was an error loading the candidates list.' />
+//   if (isLoading) return <div className='container p-4 space-y-4'><LoadingState type="candidate" /></div>
+//   if (!candidates || candidates.length === 0) return <EmptyState title='No Candidates Found' description='There are no candidates registered yet.' />
 
-  return (
-    <div className='container p-4 space-y-4'>
-      {candidates.map((candidate: any) => (
-        <CandidateCard
-          key={candidate.id}
-          candidate={candidate}
-          onReject={() => console.log('Rejected:', candidate.id)}
-          onApprove={() => console.log('Approved:', candidate.id)}
-        />
-      ))}
-    </div>
-  );
-}
+//   return (
+//     <div className='container p-4 space-y-4'>
+//       {candidates.map((candidate: any) => (
+//         <CandidateCard
+//           key={candidate.id}
+//           candidate={candidate}
+//           onReject={() => console.log('Rejected:', candidate.id)}
+//           onApprove={() => console.log('Approved:', candidate.id)}
+//         />
+//       ))}
+//     </div>
+//   );
+// }
 
 export default function CandidatesPage() {
   const { data: candidates, isLoading, error } = useCandidates()

@@ -38,7 +38,7 @@ export default function SignupPage() {
       role: "RECRUITER"
     });
     console.log("newUser", newUser);
-    // router.push('/');
+    router.push('/');
   }
 
   const handleGitHubLogin = async () => {
