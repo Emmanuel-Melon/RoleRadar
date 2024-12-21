@@ -10,6 +10,10 @@ import { ApplicationService } from './applications/applications.service';
 import { PrismaService } from './prisma.service';
 import { UsersService } from './users/users.service';
 import { UsersController } from './users/users.controller';
+import { CompanyService } from './companies/companies.service';
+import { CompanyController } from './companies/companies.controller';
+import  { MessageService } from './messages/messages.service';
+import { MessageController } from './messages/messages.controller';
 
 @Module({
   imports: [],
@@ -18,7 +22,9 @@ import { UsersController } from './users/users.controller';
     CandidateController,
     JobController,
     ApplicationController,
-    UsersController
+    UsersController,
+    CompanyController,
+    MessageController
   ],
   providers: [
     AppService,
@@ -26,7 +32,9 @@ import { UsersController } from './users/users.controller';
     CandidateService,
     JobService,
     ApplicationService,
-    UsersService
+    UsersService,
+    CompanyService,
+    MessageService
   ],
 })
 export class AppModule {}
