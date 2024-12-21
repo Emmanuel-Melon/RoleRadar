@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../prisma.service';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -14,10 +14,6 @@ export class MessageService {
           { receiverId: userId },
         ],
       },
-      include: {
-        sender: true,
-        receiver: true,
-      },
       orderBy: {
         createdAt: 'desc',
       },
@@ -27,20 +23,12 @@ export class MessageService {
   async findOne(id: string) {
     return this.prisma.message.findUnique({
       where: { id },
-      include: {
-        sender: true,
-        receiver: true,
-      },
     });
   }
 
   async create(data: Prisma.MessageCreateInput) {
     return this.prisma.message.create({
       data,
-      include: {
-        sender: true,
-        receiver: true,
-      },
     });
   }
 
@@ -61,10 +49,6 @@ export class MessageService {
             ],
           },
         ],
-      },
-      include: {
-        sender: true,
-        receiver: true,
       },
       orderBy: {
         createdAt: 'asc',

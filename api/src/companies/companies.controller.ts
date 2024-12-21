@@ -31,8 +31,4 @@ export class CompanyController {
     return this.companyService.remove(id);
   }
 
-  @Get(':id/jobs')
-  async findCompanyJobs(@Param('id') id: string) {
-    return this.companyService.findCompanyJobs(id);
-  }
 }

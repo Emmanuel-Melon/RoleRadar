@@ -7,19 +7,12 @@ export class JobService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.jobPost.findMany({
-      include: {
-        applications: true,
-      },
-    });
+    return this.prisma.jobPost.findMany();
   }
 
   async findOne(id: string) {
     return this.prisma.jobPost.findUnique({
       where: { id },
-      include: {
-        applications: true,
-      },
     });
   }
 
